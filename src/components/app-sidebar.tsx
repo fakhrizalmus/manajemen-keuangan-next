@@ -6,9 +6,11 @@ import {
   BookOpen,
   Bot,
   Command,
+  DollarSign,
   Frame,
   GalleryVerticalEnd,
   Map,
+  Menu,
   PieChart,
   Settings2,
   SquareTerminal,
@@ -52,106 +54,45 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
+      title: "Pengeluaran",
       url: "#",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Data Pengeluaran",
+          url: "/pengeluaran/data-pengeluaran",
+          icon: DollarSign
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Kategori Pengeluaran",
+          url: "/pengeluaran/kategori-pengeluaran",
+          icon: Menu
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Pemasukan",
       url: "#",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Data Pemasukan",
+          url: "/pemasukan/data-pemasukan",
+          icon: DollarSign
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Kategori Pemasukan",
+          url: "/pemasukan/kategori-pemasukan",
+          icon: Menu
         },
       ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Dashboard",
+      url: "/",
+      icon: SquareTerminal,
     },
   ],
 }
@@ -163,8 +104,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
