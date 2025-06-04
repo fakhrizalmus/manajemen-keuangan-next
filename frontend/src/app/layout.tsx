@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -37,13 +37,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          <SidebarProvider>
-            <AppSidebar />
-            <main>
+          <SidebarProvider >
+            <AppSidebar variant="inset" />
+            <SidebarInset>
               <SidebarTrigger />
               <ModeToggle/>
               {children}
-            </main>
+            </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
       </body>

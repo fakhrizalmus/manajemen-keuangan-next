@@ -38,45 +38,23 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react"
+import api from "@/lib/axios";
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-]
+const res = await api.get("/pengeluaran");
 
+const data = res.data.data.map((item: any) => ({
+  id: item.id,
+  jumlah: item.jumlah,
+  keterangan: item.keterangan,
+  tanggal: item.tanggal,
+  nama_kategori: item.KategoriPengeluaran?.nama_kategori
+}))
 export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  id: number
+  jumlah: number
+  keterangan: string
+  tanggal: string
+  nama_kategori: string
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -103,41 +81,55 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    // accessorKey: "nama_kategori",
+    header: "No",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.index + 1}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "nama_kategori",
+    header: "Nama Kategori",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("nama_kategori")}</div>
+    ),
+  },
+  {
+    accessorKey: "tanggal",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Tanggal
           <ArrowUpDown />
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("tanggal")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "jumlah",
+    header: () => <div className="text-right">Jumlah</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("jumlah"))
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("id-ID", {
         style: "currency",
-        currency: "USD",
+        currency: "IDR",
+        minimumFractionDigits: 0, // opsional, hapus desimal
       }).format(amount)
 
       return <div className="text-right font-medium">{formatted}</div>
     },
+  },
+  {
+    accessorKey: "keterangan",
+    header: "Keterangan",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("keterangan")}</div>
+    ),
   },
   {
     id: "actions",
@@ -156,7 +148,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => (payment.id)}
             >
               Copy payment ID
             </DropdownMenuItem>
@@ -170,7 +162,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function DataTableDemo() {
+export function DataTable() {
   const [pagination, setPagination] = React.useState({
       pageIndex: 0,
       pageSize: 10,
@@ -208,10 +200,10 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Cari nama kategori"
+          value={(table.getColumn("nama_kategori")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("nama_kategori")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -242,8 +234,8 @@ export function DataTableDemo() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-lg border">
-        <Table>
+      <div className="w-full overflow-x-auto rounded-lg border">
+        <Table className="min-w-[800px]">
           <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
