@@ -38,17 +38,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react"
-import api from "@/lib/axios";
 
-const res = await api.get("/pengeluaran");
-
-const data = res.data.data.map((item: any) => ({
-  id: item.id,
-  jumlah: item.jumlah,
-  keterangan: item.keterangan,
-  tanggal: item.tanggal,
-  nama_kategori: item.KategoriPengeluaran?.nama_kategori
-}))
 export type Payment = {
   id: number
   jumlah: number
@@ -81,7 +71,6 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    // accessorKey: "nama_kategori",
     header: "No",
     cell: ({ row }) => (
       <div className="capitalize">{row.index + 1}</div>
@@ -162,7 +151,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function DataTable() {
+export function DataTable({ data }: { data: Payment[] }) {
   const [pagination, setPagination] = React.useState({
       pageIndex: 0,
       pageSize: 10,

@@ -8,6 +8,7 @@ export async function postPengeluaran(data: {
     user_id: number
 }) {
     try {
+        console.log(data);
         const res = await api.post("/pengeluaran", data)
         return res.data
     } catch (error) {
@@ -18,5 +19,10 @@ export async function postPengeluaran(data: {
 
 export async function kategoriPengeluaran() {
     const res = await api.get("/kategori-pengeluaran")
+    return res.data
+}
+
+export async function getPengeluaran() {
+    const res = await api.get("/pengeluaran")
     return res.data
 }
