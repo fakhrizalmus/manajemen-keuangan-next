@@ -4,7 +4,7 @@ const {getAllPengeluaran, addPengeluaran, updatePengeluaran, deletePengeluaran} 
 
 router.get("/", getAllPengeluaran);
 router.post("/", addPengeluaran)
-router.put("/", updatePengeluaran)
-router.delete("/", deletePengeluaran)
+router.put("/:id", updatePengeluaran)
+router.delete("/:id", deletePengeluaran)
 
 module.exports = router;

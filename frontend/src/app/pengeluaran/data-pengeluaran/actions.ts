@@ -26,3 +26,12 @@ export async function getPengeluaran() {
     const res = await api.get("/pengeluaran")
     return res.data
 }
+
+export async function deletePengeluaran(id: number) {
+    try {
+        const res = await api.delete(`/pengeluaran/${id}`)
+        return res.data
+    } catch (error) {
+        throw error
+    }
+}

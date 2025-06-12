@@ -4,7 +4,7 @@ const {getAllPemasukan, addPemasukan, updatePemasukan, deletePemasukan} = requir
 
 router.get("/", getAllPemasukan);
 router.post("/", addPemasukan)
-router.put("/", updatePemasukan)
-router.delete("/", deletePemasukan)
+router.put("/:id", updatePemasukan)
+router.delete("/:id", deletePemasukan)
 
 module.exports = router;

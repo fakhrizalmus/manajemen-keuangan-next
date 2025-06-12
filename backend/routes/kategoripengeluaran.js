@@ -4,7 +4,7 @@ const {getAllKategoriPengeluaran, addKategoriPengeluaran, updateKategoriPengelua
 
 router.get("/", getAllKategoriPengeluaran);
 router.post("/", addKategoriPengeluaran)
-router.put("/", updateKategoriPengeluaran)
-router.delete("/", deleteKategoriPengeluaran)
+router.put("/:id", updateKategoriPengeluaran)
+router.delete("/:id", deleteKategoriPengeluaran)
 
 module.exports = router;
