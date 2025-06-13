@@ -52,7 +52,11 @@ import {
 import { getColumns, Payment } from "./columns"
 import EditModal from "./editmodal"
 
-export function DataTable({ data, onDelete }: { data: Payment[], onDelete: (id: number) => void }) {
+export function DataTable({ data, onDelete, refetch }: { 
+  data: Payment[], 
+  onDelete: (id: number) => void,
+  refetch: () => void
+}) {
   const [selectedIdToDelete, setSelectedIdToDelete] = React.useState<number | null>(null)
   const [selectedIdToEdit, setSelectedIdToEdit] = React.useState<number | null>(null)
   const columns = React.useMemo(() => getColumns(setSelectedIdToDelete, setSelectedIdToEdit), [])
@@ -121,6 +125,7 @@ export function DataTable({ data, onDelete }: { data: Payment[], onDelete: (id: 
           onClose={() => setSelectedIdToEdit(null)}
           onSuccess={() => {
             setSelectedIdToEdit(null)
+            refetch()
             // lakukan refetch data pengeluaran
           }}
         />

@@ -104,10 +104,12 @@ export function getColumns(
                 Copy payment ID
               </DropdownMenuItem> */}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setSelectedIdToDelete(payment.id)}>
+              <DropdownMenuItem className="bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white" 
+                onClick={() => setSelectedIdToDelete(payment.id)}>
                 Delete
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSelectedIdToEdit(payment.id)}>Edit</DropdownMenuItem>
+              <DropdownMenuItem className="bg-green-500 hover:bg-green-600 focus:bg-green-600 text-white mt-2"
+                onClick={() => setSelectedIdToEdit(payment.id)}>Edit</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

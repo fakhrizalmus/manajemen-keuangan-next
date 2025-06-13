@@ -28,16 +28,17 @@ export default function Pengeluaran() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [pengeluaranData, setPengeluaranData] = useState<any[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
+    
+    const fetchData = async () => {
+        const [kategoriRes, pengeluaranRes] = await Promise.all([
+            kategoriPengeluaran(),
+            getPengeluaran({}),
+        ]);
+        setKategoriList(kategoriRes.data);
+        setPengeluaranData(pengeluaranRes.data);
+    };
 
     React.useEffect(() => {
-        const fetchData = async () => {
-            const [kategoriRes, pengeluaranRes] = await Promise.all([
-                kategoriPengeluaran(),
-                getPengeluaran({}),
-            ]);
-            setKategoriList(kategoriRes.data);
-            setPengeluaranData(pengeluaranRes.data);
-        };
         fetchData();
     }, []);
     
@@ -112,7 +113,7 @@ export default function Pengeluaran() {
                                 <DialogHeader>
                                     <DialogTitle>Add Pengeluaran</DialogTitle>
                                     <DialogDescription>
-                                    Make changes to your profile here. Click save when you&apos;re
+                                    Click save when you&apos;re
                                     done.
                                     </DialogDescription>
                                 </DialogHeader>
@@ -139,13 +140,13 @@ export default function Pengeluaran() {
                                                 >
                                                 {id
                                                     ? kategoriList.find((item) => item.id === id)?.nama_kategori
-                                                    : "Select framework..."}
+                                                    : "Pilih kategori..."}
                                                 <ChevronsUpDown className="opacity-50" />
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-full p-0">
                                                 <Command>
-                                                <CommandInput placeholder="Search framework..." className="h-9" />
+                                                <CommandInput placeholder="Cari kategori..." className="h-9" />
                                                 <CommandList>
                                                     <CommandEmpty>No framework found.</CommandEmpty>
                                                     <CommandGroup>
@@ -203,7 +204,7 @@ export default function Pengeluaran() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable data={pengeluaranData} onDelete={handleDelete}/>
+                    <DataTable data={pengeluaranData} onDelete={handleDelete} refetch={fetchData}/>
                 </div>
             </div>
         </div>
