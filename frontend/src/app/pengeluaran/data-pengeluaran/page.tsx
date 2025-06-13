@@ -33,7 +33,7 @@ export default function Pengeluaran() {
         const fetchData = async () => {
             const [kategoriRes, pengeluaranRes] = await Promise.all([
                 kategoriPengeluaran(),
-                getPengeluaran(),
+                getPengeluaran({}),
             ]);
             setKategoriList(kategoriRes.data);
             setPengeluaranData(pengeluaranRes.data);
@@ -77,7 +77,7 @@ export default function Pengeluaran() {
             };
             const res = await postPengeluaran(newFormData)
             console.log('Berhasil simpan data ', res);
-            const pengeluaran = await getPengeluaran()
+            const pengeluaran = await getPengeluaran({})
             setPengeluaranData(pengeluaran.data)
             setDialogOpen(false);
         } catch (err) {
@@ -90,12 +90,11 @@ export default function Pengeluaran() {
         try {
             await deletePengeluaran(id)
             // refresh data atau fetch ulang dari server
-            const pengeluaran = await getPengeluaran()
+            const pengeluaran = await getPengeluaran({})
             setPengeluaranData(pengeluaran.data)
         } catch (error) {
             console.error("Gagal menghapus data:", error)
         }
-    
     }
     return (
         <div className="flex flex-1 flex-col px-6">

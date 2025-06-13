@@ -17,7 +17,7 @@ const getAllPengeluaran = async (req, res) => {
         include: [
             {
                 model: model.KategoriPengeluaran,
-                attributes: ['nama_kategori']
+                attributes: ['id', 'nama_kategori']
             },
         ],
         where,
