@@ -66,7 +66,6 @@ export default function Pengeluaran() {
         try {
             if (formData.jumlah <= 0 || !formData.keterangan) {
                 toastr.error('Isi semua field dengan benar')
-                // alert("Isi semua field dengan benar.");
                 return;
             }
 
@@ -84,8 +83,19 @@ export default function Pengeluaran() {
         } catch (err) {
             console.log('tes gagal');
             toastr.error('Gagal Menyimpan')
-            // alert("Gagal menyimpan")
         }
+    }
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deletePengeluaran(id)
+            // refresh data atau fetch ulang dari server
+            const pengeluaran = await getPengeluaran()
+            setPengeluaranData(pengeluaran.data)
+        } catch (error) {
+            console.error("Gagal menghapus data:", error)
+        }
+    
     }
     return (
         <div className="flex flex-1 flex-col px-6">
@@ -194,7 +204,7 @@ export default function Pengeluaran() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable data={pengeluaranData}/>
+                    <DataTable data={pengeluaranData} onDelete={handleDelete}/>
                 </div>
             </div>
         </div>

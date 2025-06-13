@@ -38,120 +38,128 @@ import {
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 export type Payment = {
   id: number
   jumlah: number
   keterangan: string
   tanggal: string
-  nama_kategori: string
+  KategoriPengeluaran: {
+    nama_kategori: string
+  }
 }
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    header: "No",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.index + 1}</div>
-    ),
-  },
-  {
-    accessorKey: "nama_kategori",
-    header: "Nama Kategori",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("nama_kategori")}</div>
-    ),
-  },
-  {
-    accessorKey: "tanggal",
-    header: ({ column }) => {
-      return (
+function getColumns(setSelectedIdToDelete: (id: number) => void): ColumnDef<Payment>[] {
+  return [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      header: "No",
+      cell: ({ row }) => <div className="capitalize">{row.index + 1}</div>,
+    },
+    {
+      accessorFn: (row) => row.KategoriPengeluaran.nama_kategori,
+      id: "nama_kategori",
+      
+      header: "Nama Kategori",
+      cell: ({ row }) => <div className="capitalize">{row.original.KategoriPengeluaran.nama_kategori}</div>,
+    },
+    {
+      accessorKey: "tanggal",
+      header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tanggal
-          <ArrowUpDown />
+          Tanggal <ArrowUpDown />
         </Button>
-      )
+      ),
+      cell: ({ row }) => <div className="lowercase">{row.getValue("tanggal")}</div>,
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("tanggal")}</div>,
-  },
-  {
-    accessorKey: "jumlah",
-    header: () => <div className="text-right">Jumlah</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("jumlah"))
-
-      const formatted = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0, // opsional, hapus desimal
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
+    {
+      accessorKey: "jumlah",
+      header: () => <div className="text-right">Jumlah</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("jumlah"))
+        const formatted = new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(amount)
+        return <div className="text-right font-medium">{formatted}</div>
+      },
     },
-  },
-  {
-    accessorKey: "keterangan",
-    header: "Keterangan",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("keterangan")}</div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => (payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
+    {
+      accessorKey: "keterangan",
+      header: "Keterangan",
+      cell: ({ row }) => <div className="capitalize">{row.getValue("keterangan")}</div>,
     },
-  },
-]
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const payment = row.original
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              {/* <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id.toString())}>
+                Copy payment ID
+              </DropdownMenuItem> */}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setSelectedIdToDelete(payment.id)}>
+                Delete
+              </DropdownMenuItem>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
+}
 
-export function DataTable({ data }: { data: Payment[] }) {
+export function DataTable({ data, onDelete }: { data: Payment[], onDelete: (id: number) => void }) {
+  const [selectedIdToDelete, setSelectedIdToDelete] = React.useState<number | null>(null)
+  const columns = React.useMemo(() => getColumns(setSelectedIdToDelete), [])
   const [pagination, setPagination] = React.useState({
       pageIndex: 0,
       pageSize: 10,
@@ -187,6 +195,31 @@ export function DataTable({ data }: { data: Payment[] }) {
 
   return (
     <div className="w-full">
+      {selectedIdToDelete !== null && (
+        <AlertDialog open={true} onOpenChange={() => setSelectedIdToDelete(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Tindakan ini akan menghapus data pengeluaran secara permanen.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Batal</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-600 text-white"
+                onClick={() => {
+                  onDelete(selectedIdToDelete)
+                  setSelectedIdToDelete(null)
+                }}
+              >
+                Hapus
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+
       <div className="flex items-center py-4">
         <Input
           placeholder="Cari nama kategori"
