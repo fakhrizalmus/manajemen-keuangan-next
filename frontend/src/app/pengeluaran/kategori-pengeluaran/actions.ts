@@ -22,5 +22,29 @@ export async function getKategoriPengeluaran(params: GetKategoriPengeluaranParam
     const res = await api.get("/kategori-pengeluaran", {
         params: params || {}
     })
+    console.log(res.data);
     return res.data
+}
+
+export async function deleteKategoriPengeluaran(id: number) {
+    try {
+        const res = await api.delete(`/kategori-pengeluaran/${id}`)
+        return res.data
+    } catch (error) {
+        console.log(error);
+        throw new Error("Gagal Hapus");
+    }
+}
+
+export async function putKategoriPengeluaran(data: {
+    nama_kategori: string
+    user_id: number
+}, id: number) {
+    try {
+        const res = await api.put(`/kategori-pengeluaran/${id}`, data)
+        return res.data
+    } catch (error) {
+        console.log(error);
+        throw new Error("Gagal Edit")
+    }
 }

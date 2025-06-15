@@ -22,9 +22,11 @@ const getAllKategoriPengeluaran = async (req, res) => {
 }
 
 const addKategoriPengeluaran = async (req, res) => {
-    const {nama_kategori} = req.body
+    const {nama_kategori, user_id} = req.body
+    console.log(req.body);
     const kategoriPengeluaranData = {
         nama_kategori: nama_kategori,
+        user_id: user_id
     }
     if (kategoriPengeluaranData) {
         const addKategoriPengeluaran = await KategoriPengeluaran.create(kategoriPengeluaranData)
@@ -41,6 +43,7 @@ const addKategoriPengeluaran = async (req, res) => {
 const updateKategoriPengeluaran = async (req, res) => {
     const {id} = req.params
     const {nama_kategori} = req.body
+    console.log(req.body);
     const cariKategoriPengeluaran = await KategoriPengeluaran.findByPk(id)
     if (!cariKategoriPengeluaran) {
         return res.status(400).json({
