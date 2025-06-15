@@ -1,8 +1,9 @@
+const { Op } = require('sequelize')
 const { Pengeluaran } = require('../models')
 const model = require('../models')
 
 const getAllPengeluaran = async (req, res) => {
-    let {page, row, kategori_pengeluaran_id, id} = req.query
+    let {page, row, kategori_pengeluaran_id, id, start_date, end_date} = req.query
     page -= 1
 
     const where = {}
@@ -11,6 +12,11 @@ const getAllPengeluaran = async (req, res) => {
     }
     if (id) {
         where.id = id
+    }
+    if (start_date && end_date) {
+        where.tanggal = {
+            [Op.between]: [start_date, end_date]
+        }
     }
     const options = {
         attributes: ['id', 'jumlah', 'tanggal', 'keterangan'],

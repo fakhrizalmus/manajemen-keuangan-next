@@ -23,10 +23,12 @@ export async function kategoriPengeluaran() {
 }
 
 type GetPengeluaranParams = {
-  page?: number
-  row?: number
-  kategori_pengeluaran_id?: number
-  id?: number
+    page?: number
+    row?: number
+    kategori_pengeluaran_id?: number
+    id?: number
+    start_date?: string
+    end_date?: string
 }
 
 export async function getPengeluaran(params: GetPengeluaranParams) {

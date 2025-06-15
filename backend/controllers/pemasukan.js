@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const { Pemasukan } = require('../models')
 const model = require('../models')
 
@@ -11,6 +12,11 @@ const getAllPemasukan = async (req, res) => {
     }
     if (id) {
         where.id = id
+    }
+    if (start_date && end_date) {
+        where.tanggal = {
+            [Op.between]: [start_date, end_date]
+        }
     }
     const options = {
         attributes: ['id', 'jumlah', 'tanggal', 'keterangan'],

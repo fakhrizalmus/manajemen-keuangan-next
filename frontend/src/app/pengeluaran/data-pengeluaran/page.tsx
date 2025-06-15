@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import FilterTanggal from "@/components/filterTanggal";
 
 export default function Pengeluaran() {
     const [open, setOpen] = React.useState(false)
@@ -28,7 +29,7 @@ export default function Pengeluaran() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [pengeluaranData, setPengeluaranData] = useState<any[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
-    
+
     const fetchData = async () => {
         const [kategoriRes, pengeluaranRes] = await Promise.all([
             kategoriPengeluaran(),
@@ -41,7 +42,7 @@ export default function Pengeluaran() {
     React.useEffect(() => {
         fetchData();
     }, []);
-    
+
     const [jumlah, setJumlah] = useState("");
 
     const handleJumlahChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,16 +106,21 @@ export default function Pengeluaran() {
                         Data Pengeluaran
                     </CardTitle>
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                        <div className="w-fit">
+                            <FilterTanggal />
+                        </div>
                         <DialogTrigger asChild>
-                        <Button size="lg" className="mt-3 bg-green-400" onClick={() => setDialogOpen(true)}><IconPlus />Add Pengeluaran</Button>
+                            <Button className="mt-3 bg-green-400 w-fit" onClick={() => setDialogOpen(true)}>
+                                <IconPlus />Add Pengeluaran
+                            </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[825px]">
                             <form onSubmit={handleSubmit}>
                                 <DialogHeader>
                                     <DialogTitle>Add Pengeluaran</DialogTitle>
                                     <DialogDescription>
-                                    Click save when you&apos;re
-                                    done.
+                                        Click save when you&apos;re
+                                        done.
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="grid gap-4">
@@ -123,7 +129,7 @@ export default function Pengeluaran() {
                                         <div className="grid gap-3">
                                             <Label htmlFor="tanggal">Tanggal</Label>
                                             <div className="w-full">
-                                            <DatePicker date={selectedDate} setDate={setSelectedDate} />
+                                                <DatePicker date={selectedDate} setDate={setSelectedDate} />
                                             </div>
                                         </div>
 
@@ -131,48 +137,48 @@ export default function Pengeluaran() {
                                         <div className="grid gap-3">
                                             <Label htmlFor="name-1">Kategori</Label>
                                             <Popover open={open} onOpenChange={setOpen}>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                variant="outline"
-                                                role="combobox"
-                                                aria-expanded={open}
-                                                className="w-full justify-between"
-                                                >
-                                                {id
-                                                    ? kategoriList.find((item) => item.id === id)?.nama_kategori
-                                                    : "Pilih kategori..."}
-                                                <ChevronsUpDown className="opacity-50" />
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-full p-0">
-                                                <Command>
-                                                <CommandInput placeholder="Cari kategori..." className="h-9" />
-                                                <CommandList>
-                                                    <CommandEmpty>No framework found.</CommandEmpty>
-                                                    <CommandGroup>
-                                                    {kategoriList.map((item) => (
-                                                        <CommandItem
-                                                        key={item.id}
-                                                        value={item.id.toString()}
-                                                        onSelect={(currentValue) => {
-                                                            const selectedId = parseInt(currentValue)
-                                                            setValue(selectedId === id ? null : selectedId)
-                                                            setOpen(false)
-                                                        }}
-                                                        >
-                                                        {item.nama_kategori}
-                                                        <Check
-                                                            className={cn(
-                                                            "ml-auto",
-                                                            id === item.id ? "opacity-100" : "opacity-0"
-                                                            )}
-                                                        />
-                                                        </CommandItem>
-                                                    ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                                </Command>
-                                            </PopoverContent>
+                                                <PopoverTrigger asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        aria-expanded={open}
+                                                        className="w-full justify-between"
+                                                    >
+                                                        {id
+                                                            ? kategoriList.find((item) => item.id === id)?.nama_kategori
+                                                            : "Pilih kategori..."}
+                                                        <ChevronsUpDown className="opacity-50" />
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-full p-0">
+                                                    <Command>
+                                                        <CommandInput placeholder="Cari kategori..." className="h-9" />
+                                                        <CommandList>
+                                                            <CommandEmpty>No framework found.</CommandEmpty>
+                                                            <CommandGroup>
+                                                                {kategoriList.map((item) => (
+                                                                    <CommandItem
+                                                                        key={item.id}
+                                                                        value={item.id.toString()}
+                                                                        onSelect={(currentValue) => {
+                                                                            const selectedId = parseInt(currentValue)
+                                                                            setValue(selectedId === id ? null : selectedId)
+                                                                            setOpen(false)
+                                                                        }}
+                                                                    >
+                                                                        {item.nama_kategori}
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "ml-auto",
+                                                                                id === item.id ? "opacity-100" : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                    </CommandItem>
+                                                                ))}
+                                                            </CommandGroup>
+                                                        </CommandList>
+                                                    </Command>
+                                                </PopoverContent>
                                             </Popover>
                                         </div>
                                     </div>
@@ -196,7 +202,7 @@ export default function Pengeluaran() {
                                 <div className="mt-4">
                                     <DialogFooter>
                                         <DialogClose asChild>
-                                        <Button className="bg-red-500 text-white">Cancel</Button>
+                                            <Button className="bg-red-500 text-white">Cancel</Button>
                                         </DialogClose>
                                         <Button type="submit" className="bg-green-400 text-white">Save changes</Button>
                                     </DialogFooter>
@@ -204,7 +210,7 @@ export default function Pengeluaran() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable data={pengeluaranData} onDelete={handleDelete} refetch={fetchData}/>
+                    <DataTable data={pengeluaranData} onDelete={handleDelete} refetch={fetchData} />
                 </div>
             </div>
         </div>
