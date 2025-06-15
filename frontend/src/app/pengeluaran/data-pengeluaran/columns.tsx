@@ -18,10 +18,10 @@ export type Payment = {
 }
 
 export function getColumns(
-    setSelectedIdToDelete: (id: number) => void,
-    setSelectedIdToEdit: (id: number) => void
+  setSelectedIdToDelete: (id: number) => void,
+  setSelectedIdToEdit: (id: number) => void
 ): ColumnDef<Payment>[] {
-    return [
+  return [
     {
       id: "select",
       header: ({ table }) => (
@@ -51,7 +51,7 @@ export function getColumns(
     {
       accessorFn: (row) => row.KategoriPengeluaran.nama_kategori,
       id: "nama_kategori",
-      
+
       header: "Nama Kategori",
       cell: ({ row }) => <div className="capitalize">{row.original.KategoriPengeluaran.nama_kategori}</div>,
     },
@@ -65,7 +65,14 @@ export function getColumns(
           Tanggal <ArrowUpDown />
         </Button>
       ),
-      cell: ({ row }) => <div className="lowercase">{row.getValue("tanggal")}</div>,
+      cell: ({ row }) => {
+        const formattedDate = new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(row.getValue("tanggal")))
+        return <div>{formattedDate}</div>
+      },
     },
     {
       accessorKey: "jumlah",
@@ -104,7 +111,7 @@ export function getColumns(
                 Copy payment ID
               </DropdownMenuItem> */}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white" 
+              <DropdownMenuItem className="bg-red-500 hover:bg-red-600 focus:bg-red-600 text-white"
                 onClick={() => setSelectedIdToDelete(payment.id)}>
                 Delete
               </DropdownMenuItem>
@@ -115,4 +122,5 @@ export function getColumns(
         )
       },
     },
-]}
+  ]
+}
