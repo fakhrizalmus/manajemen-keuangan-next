@@ -38,7 +38,6 @@ export async function deleteKategoriPengeluaran(id: number) {
 
 export async function putKategoriPengeluaran(data: {
     nama_kategori: string
-    user_id: number
 }, id: number) {
     try {
         const res = await api.put(`/kategori-pengeluaran/${id}`, data)

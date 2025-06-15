@@ -24,8 +24,7 @@ type EditModalProps = {
 
 export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
     const [form, setForm] = React.useState({
-        nama_kategori: "",
-        user_id: 1
+        nama_kategori: ""
     })
     const [loading, setLoading] = React.useState(false)
 
@@ -34,8 +33,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
             getKategoriPengeluaran({ id }).then((res) => {
                 const data: KategoriPengeluaran = res.data[0]
                 setForm({
-                    nama_kategori: data.nama_kategori,
-                    user_id: 1
+                    nama_kategori: data.nama_kategori
                 })
             })
         }

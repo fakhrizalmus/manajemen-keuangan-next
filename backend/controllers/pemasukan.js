@@ -21,6 +21,9 @@ const getAllPemasukan = async (req, res) => {
             },
         ],
         where,
+        order: [
+            ['tanggal', 'DESC']
+        ]
     }
     if (page) options.limit = page;
     if (row) options.offset = row;
