@@ -32,7 +32,19 @@ function isValidDate(date: Date | undefined) {
     return !isNaN(date.getTime())
 }
 
-export default function FilterTanggal() {
+type Props = {
+    startDate: Date | undefined
+    endDate: Date | undefined
+    setStartDate: (date: Date | undefined) => void
+    setEndDate: (date: Date | undefined) => void
+}
+
+export default function FilterTanggal({
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate
+}: Props) {
     // Ambil tanggal hari ini
     const today = new Date()
 
@@ -44,13 +56,13 @@ export default function FilterTanggal() {
 
     // Untuk Tanggal Awal
     const [openStart, setOpenStart] = React.useState(false)
-    const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(firstDayOfMonth))
+    // const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(firstDayOfMonth))
     const [startMonth, setStartMonth] = React.useState<Date | undefined>(startDate)
     const [startValue, setStartValue] = React.useState(formatDate(startDate))
 
     // Untuk Tanggal Akhir
     const [openEnd, setOpenEnd] = React.useState(false)
-    const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(lastDayOfMonth))
+    // const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(lastDayOfMonth))
     const [endMonth, setEndMonth] = React.useState<Date | undefined>(endDate)
     const [endValue, setEndValue] = React.useState(formatDate(endDate))
 

@@ -29,11 +29,17 @@ export default function Pengeluaran() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [pengeluaranData, setPengeluaranData] = useState<any[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [startDate, setStartDate] = React.useState<Date | undefined>();
+    const [endDate, setEndDate] = React.useState<Date | undefined>();
 
     const fetchData = async () => {
+        console.log(startDate);
         const [kategoriRes, pengeluaranRes] = await Promise.all([
             kategoriPengeluaran(),
-            getPengeluaran({}),
+            getPengeluaran({
+                start_date: startDate?.toISOString().split("T")[0],
+                end_date: endDate?.toISOString().split("T")[0],
+            }),
         ]);
         setKategoriList(kategoriRes.data);
         setPengeluaranData(pengeluaranRes.data);
@@ -107,8 +113,15 @@ export default function Pengeluaran() {
                     </CardTitle>
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <div className="w-fit">
-                            <FilterTanggal />
+                            <FilterTanggal
+                            startDate={startDate}
+                            endDate={endDate}
+                            setStartDate={setStartDate}
+                            setEndDate={setEndDate} />
                         </div>
+                        <Button 
+                            className="bg-green-400 w-fit"
+                            onClick={() => fetchData()}>Cari</Button>
                         <DialogTrigger asChild>
                             <Button className="mt-3 bg-green-400 w-fit" onClick={() => setDialogOpen(true)}>
                                 <IconPlus />Add Pengeluaran
