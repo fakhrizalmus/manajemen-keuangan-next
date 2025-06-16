@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
-export type Payment = {
+export type DataPengeluaran = {
   id: number
   jumlah: number
   keterangan: string
@@ -20,7 +20,7 @@ export type Payment = {
 export function getColumns(
   setSelectedIdToDelete: (id: number) => void,
   setSelectedIdToEdit: (id: number) => void
-): ColumnDef<Payment>[] {
+): ColumnDef<DataPengeluaran>[] {
   return [
     {
       id: "select",

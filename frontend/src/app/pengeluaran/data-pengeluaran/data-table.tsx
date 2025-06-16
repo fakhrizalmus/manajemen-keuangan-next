@@ -49,11 +49,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { getColumns, Payment } from "./columns"
+import { getColumns, DataPengeluaran } from "./columns"
 import EditModal from "./editmodal"
+import { getPengeluaran } from "./actions"
 
 export function DataTable({ data, onDelete, refetch }: { 
-  data: Payment[], 
+  data: DataPengeluaran[], 
   onDelete: (id: number) => void,
   refetch: () => void
 }) {
@@ -71,6 +72,13 @@ export function DataTable({ data, onDelete, refetch }: {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [selectedData, setSelectedData] = React.useState<DataPengeluaran>()
+
+  React.useEffect(() => {
+    getPengeluaran({id: selectedIdToDelete}).then((res) => {
+      setSelectedData(res.data[0])
+    })
+  }, [selectedIdToDelete])
 
   const table = useReactTable({
     data,
@@ -99,7 +107,7 @@ export function DataTable({ data, onDelete, refetch }: {
         <AlertDialog open={true} onOpenChange={() => setSelectedIdToDelete(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Apakah kamu yakin?</AlertDialogTitle>
+              <AlertDialogTitle>Apakah kamu yakin menghapus {selectedData?.KategoriPengeluaran.nama_kategori}?</AlertDialogTitle>
               <AlertDialogDescription>
                 Tindakan ini akan menghapus data pengeluaran secara permanen.
               </AlertDialogDescription>

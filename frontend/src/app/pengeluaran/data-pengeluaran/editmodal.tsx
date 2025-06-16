@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { getPengeluaran, kategoriPengeluaran, putPengeluaran } from "./actions"
-import { Payment } from "./columns"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -15,6 +14,7 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { cn } from "@/lib/utils"
 import { formatToRupiah } from "@/app/utils/formatRupiah"
+import { DataPengeluaran } from "./columns"
 
 type EditModalProps = {
   id: number | null
@@ -39,7 +39,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                 setKategoriList(res.data);
             })
             getPengeluaran({ id }).then((res) => {
-                const data: Payment = res.data[0]
+                const data: DataPengeluaran = res.data[0]
                 const tanggal = data.tanggal;
                 const tanggalDate = tanggal ? new Date(tanggal) : undefined;
 
