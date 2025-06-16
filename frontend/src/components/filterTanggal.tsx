@@ -54,17 +54,32 @@ export default function FilterTanggal({
     // Akhir bulan
     const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
 
-    // Untuk Tanggal Awal
+    // // Untuk Tanggal Awal
     const [openStart, setOpenStart] = React.useState(false)
-    // const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(firstDayOfMonth))
+    // // const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(firstDayOfMonth))
     const [startMonth, setStartMonth] = React.useState<Date | undefined>(startDate)
     const [startValue, setStartValue] = React.useState(formatDate(startDate))
 
-    // Untuk Tanggal Akhir
+    // // Untuk Tanggal Akhir
     const [openEnd, setOpenEnd] = React.useState(false)
-    // const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(lastDayOfMonth))
+    // // const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(lastDayOfMonth))
     const [endMonth, setEndMonth] = React.useState<Date | undefined>(endDate)
     const [endValue, setEndValue] = React.useState(formatDate(endDate))
+
+    React.useEffect(() => {
+        if (startDate && isValidDate(startDate)) {
+            setStartValue(formatDate(startDate));
+            setStartMonth(startDate);
+        }
+    }, [startDate]);
+
+    React.useEffect(() => {
+        if (endDate && isValidDate(endDate)) {
+            setEndValue(formatDate(endDate));
+            setEndMonth(endDate);
+        }
+    }, [endDate]);
+
 
     return (
         <div className="flex flex-row gap-4">

@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import FilterTanggal from "@/components/filterTanggal";
+import moment from "moment"
 
 export default function Pengeluaran() {
     const [open, setOpen] = React.useState(false)
@@ -29,16 +30,18 @@ export default function Pengeluaran() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [pengeluaranData, setPengeluaranData] = useState<any[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [startDate, setStartDate] = React.useState<Date | undefined>();
-    const [endDate, setEndDate] = React.useState<Date | undefined>();
+    const today = new Date();
+    const awalBulan = new Date(today.getFullYear(), today.getMonth(), 1);
+    const akhirBulan = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    const [startDate, setStartDate] = React.useState<Date | undefined>(awalBulan);
+    const [endDate, setEndDate] = React.useState<Date | undefined>(akhirBulan);
 
     const fetchData = async () => {
-        console.log(startDate);
         const [kategoriRes, pengeluaranRes] = await Promise.all([
             kategoriPengeluaran(),
             getPengeluaran({
-                start_date: startDate?.toISOString().split("T")[0],
-                end_date: endDate?.toISOString().split("T")[0],
+                start_date: moment(startDate).format("YYYY-MM-DD"),
+                end_date: moment(endDate).format("YYYY-MM-DD"),
             }),
         ]);
         setKategoriList(kategoriRes.data);
