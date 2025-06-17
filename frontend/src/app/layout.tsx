@@ -41,9 +41,26 @@ export default function RootLayout({
           <SidebarProvider >
             <AppSidebar variant="inset" />
             <SidebarInset>
-              <SidebarTrigger />
-              <ModeToggle/>
+              <div className="flex items-center gap-2 px-4 py-2">
+                <SidebarTrigger />
+                <ModeToggle />
+              </div>
               {children}
+              {/* Footer */}
+              <footer className="mt-8 px-4 py-4 border-t text-sm text-muted-foreground flex flex-col sm:flex-row justify-between items-center gap-2">
+                <span>© {new Date().getFullYear()} Manajemen Keuangan</span>
+                <div className="flex gap-4">
+                  <a href="https://github.com/fakhrizalmus" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    GitHub
+                  </a>
+                  <a href="https://www.linkedin.com/in/fakhrizalmustaqim" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    LinkedIn
+                  </a>
+                  <a href="https://gitlab.com/fakhrizaluciha" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    GitLab
+                  </a>
+                </div>
+              </footer>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>

@@ -91,7 +91,7 @@ const data = {
   projects: [
     {
       name: "Dashboard",
-      url: "/",
+      url: "/home",
       icon: SquareTerminal,
     },
   ],
