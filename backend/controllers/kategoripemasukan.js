@@ -3,7 +3,6 @@ const model = require('../models')
 
 const getAllKategoriPemasukan = async (req, res) => {
     let {page, row, id} = req.query
-    page -= 1
     let where = {}
 
     if (id) {
@@ -12,9 +11,12 @@ const getAllKategoriPemasukan = async (req, res) => {
     const options = {
         attributes: ['id', 'nama_kategori'],
         where,
+        order: [
+            ['id', 'DESC']
+        ]
     }
-    if (page) options.limit = page;
-    if (row) options.offset = row;
+    if (page) options.offset = parseInt(page);
+    if (row) options.limit = parseInt(row) || 10;
     const allKategoriPemasukan = await KategoriPemasukan.findAll(options);
     return res.status(200).json({
         data: allKategoriPemasukan
@@ -22,9 +24,10 @@ const getAllKategoriPemasukan = async (req, res) => {
 }
 
 const addKategoriPemasukan = async (req, res) => {
-    const {nama_kategori} = req.body
+    const {nama_kategori, user_id} = req.body
     const kategoriPemasukanData = {
         nama_kategori: nama_kategori,
+        user_id: user_id
     }
     if (kategoriPemasukanData) {
         const addKategoriPemasukan = await KategoriPemasukan.create(kategoriPemasukanData)
@@ -62,13 +65,13 @@ const updateKategoriPemasukan = async (req, res) => {
     }
 }
 
-const deletePemasukan = async (req, res) => {
+const deleteKategoriPemasukan = async (req, res) => {
     const {id} = req.params
-    const cariPemasukan = await Pemasukan.findByPk(id)
-    if (cariPemasukan) {
-        const deletePemasukan = await cariPemasukan.destroy()
+    const cariKategoriPemasukan = await KategoriPemasukan.findByPk(id)
+    if (cariKategoriPemasukan) {
+        const deleteKategoriPemasukan = await cariKategoriPemasukan.destroy()
         return res.status(200).json({
-            data: cariPemasukan
+            data: cariKategoriPemasukan
         })
     } else {
         return res.status(400).json({
@@ -78,9 +81,8 @@ const deletePemasukan = async (req, res) => {
 }
 
 module.exports = {
-    getAllPemasukan,
-    addPemasukan,
-    updatePemasukan,
-    deletePemasukan,
-    getPemasukanById
+    getAllKategoriPemasukan,
+    addKategoriPemasukan,
+    updateKategoriPemasukan,
+    deleteKategoriPemasukan
 }

@@ -3,7 +3,6 @@ const model = require('../models')
 
 const getAllKategoriPengeluaran = async (req, res) => {
     let {page, row, id} = req.query
-    page -= 1
     let where = {}
 
     if (id) {
@@ -12,9 +11,12 @@ const getAllKategoriPengeluaran = async (req, res) => {
     const options = {
         attributes: ['id', 'nama_kategori'],
         where,
+        order: [
+            ['id', 'DESC']
+        ]
     }
-    if (page) options.limit = page;
-    if (row) options.offset = row;
+    if (page) options.offset = parseInt(page);
+    if (row) options.limit = parseInt(row) || 10;
     const allKategoriPengeluaran = await KategoriPengeluaran.findAll(options);
     return res.status(200).json({
         data: allKategoriPengeluaran
@@ -23,7 +25,6 @@ const getAllKategoriPengeluaran = async (req, res) => {
 
 const addKategoriPengeluaran = async (req, res) => {
     const {nama_kategori, user_id} = req.body
-    console.log(req.body);
     const kategoriPengeluaranData = {
         nama_kategori: nama_kategori,
         user_id: user_id
