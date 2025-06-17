@@ -3,7 +3,7 @@ const { Pemasukan } = require('../models')
 const model = require('../models')
 
 const getAllPemasukan = async (req, res) => {
-    let {page, row, kategori_pemasukan_id, id} = req.query
+    let {page, row, kategori_pemasukan_id, id, start_date, end_date} = req.query
 
     const where = {}
     if (kategori_pemasukan_id) {
