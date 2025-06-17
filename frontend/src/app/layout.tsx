@@ -34,11 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <SidebarProvider >
             <AppSidebar variant="inset" />
             <SidebarInset>
@@ -52,16 +52,16 @@ export default function RootLayout({
                 <span>© {new Date().getFullYear()} Manajemen Keuangan</span>
                 <div className="flex gap-4">
                   <a href="https://github.com/fakhrizalmus" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    <Github/>
+                    <Github />
                   </a>
                   <a href="https://www.linkedin.com/in/fakhrizalmustaqim" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    <Linkedin/>
+                    <Linkedin />
                   </a>
                   <a href="https://gitlab.com/fakhrizaluciha" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    <Gitlab/>
+                    <Gitlab />
                   </a>
                   <a href="mailto:rizalmustaqim150@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    <Mail/>
+                    <Mail />
                   </a>
                 </div>
               </footer>

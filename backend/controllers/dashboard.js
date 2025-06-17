@@ -40,12 +40,15 @@ const dashboard = async (req, res) => {
         }
     )
 
+    const persentase = Math.floor((Number(countpengeluaran.jumlah) * 100) / Number(countpemasukan.jumlah))
+
     if (pemasukan && pengeluaran) {
         return res.status(200).json({
             countpemasukan: Number(countpemasukan.jumlah),
             countpengeluaran: Number(countpengeluaran.jumlah),
             pemasukan: pemasukan,
-            pengeluaran: pengeluaran
+            pengeluaran: pengeluaran,
+            persentase: persentase
         })
     }
     return res.status(400).json({

@@ -1,19 +1,18 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Cell, LabelList, Pie, PieChart } from "recharts"
+import { Cell, Pie, PieChart } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
-  ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
@@ -30,44 +29,32 @@ const COLORS = [
   "var(--chart-7)",
 ]
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig
-
-export function ChartPemasukan({data}: {
-  data: any[]
+export function ChartPemasukan({ data, start_date, end_date }: {
+  data: any[],
+  start_date: Date | undefined,
+  end_date: Date | undefined
 }) {
   const chartData = data.map((item) => ({
     name: item.nama_kategori,
     value: parseInt(item.total),
   }))
+
+  // Generate chart config dynamically from data
+  const chartConfig = Object.fromEntries(
+    chartData.map((item, index) => [
+      item.name,
+      {
+        label: item.name,
+        color: COLORS[index % COLORS.length],
+      },
+    ])
+  )
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Chart Pemasukan</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>{start_date ? start_date.toLocaleDateString("id-ID") : "-"} - {end_date ? end_date.toLocaleDateString("id-ID") : "-"}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -82,13 +69,11 @@ export function ChartPemasukan({data}: {
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
-              <LabelList
-                dataKey="name"
-                className="fill-background"
-                stroke="none"
-                fontSize={12}
-              />
             </Pie>
+            <ChartLegend
+              content={<ChartLegendContent nameKey="name" />}
+              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>

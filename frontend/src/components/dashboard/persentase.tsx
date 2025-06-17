@@ -35,12 +35,23 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartPersentase() {
+export function ChartPersentase({ data, start_date, end_date }: {
+  data: number,
+  start_date: Date | undefined,
+  end_date: Date | undefined
+}) {
+  const chartData = [
+    {
+      visitors: data,
+      fill: "var(--chart-2)"
+    }
+  ]
+  const endAngle = 90 - (360 * (data / 100))
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Total Pengeluaran</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>{start_date ? start_date.toLocaleDateString("id-ID") : "-"} - {end_date ? end_date.toLocaleDateString("id-ID") : "-"}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -49,8 +60,8 @@ export function ChartPersentase() {
         >
           <RadialBarChart
             data={chartData}
-            startAngle={0}
-            endAngle={250}
+            startAngle={90}
+            endAngle={endAngle}
             innerRadius={80}
             outerRadius={110}
           >
@@ -78,14 +89,14 @@ export function ChartPersentase() {
                           y={viewBox.cy}
                           className="fill-foreground text-4xl font-bold"
                         >
-                          {chartData[0].visitors.toLocaleString()}
+                          {chartData[0].visitors.toLocaleString()}%
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Pengeluaran
                         </tspan>
                       </text>
                     )
