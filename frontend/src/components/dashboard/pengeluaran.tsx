@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { LabelList, Pie, PieChart } from "recharts"
+import { Cell, LabelList, Pie, PieChart } from "recharts"
 
 import {
   Card,
@@ -20,12 +20,14 @@ import {
 
 export const description = "A pie chart with a label list"
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+const COLORS = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-6)",
+  "var(--chart-7)",
 ]
 
 const chartConfig = {
@@ -54,7 +56,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartPengeluaran() {
+export function ChartPengeluaran({data}: {
+  data: any[]
+}) {
+  const chartData = data.map((item) => ({
+    name: item.nama_kategori,
+    value: parseInt(item.total),
+  }))
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -68,9 +76,12 @@ export function ChartPengeluaran() {
         >
           <PieChart>
             <ChartTooltip
-              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
+              content={<ChartTooltipContent nameKey="name" hideLabel />}
             />
-            <Pie data={chartData} dataKey="visitors">
+            <Pie data={chartData} dataKey="value" nameKey="name" fill="#8884d8">
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
               <LabelList
                 dataKey="browser"
                 className="fill-background"

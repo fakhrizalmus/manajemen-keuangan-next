@@ -17,6 +17,8 @@ import { ChartPersentase } from "@/components/dashboard/persentase";
 export default function Home() {
   const [countPemasukan, setCountPemasukanData] = useState<number>(0)
   const [countPengeluaran, setCountPengeluaranData] = useState<number>(0)
+  const [pemasukan, setPemasukan] = useState<any[]>([])
+  const [pengeluaran, setPengeluaran] = useState<any[]>([])
   const today = new Date();
   const awalBulan = new Date(today.getFullYear(), today.getMonth(), 1);
   const akhirBulan = new Date(today.getFullYear(), today.getMonth() + 1, 0);
@@ -30,8 +32,12 @@ export default function Home() {
             end_date: moment(endDate).format("YYYY-MM-DD"),
         })
     ]);
-    setCountPemasukanData(dashboardData.pemasukan)
-    setCountPengeluaranData(dashboardData.pengeluaran)
+    setCountPemasukanData(dashboardData.countpemasukan)
+    setCountPengeluaranData(dashboardData.countpengeluaran)
+    setPemasukan(dashboardData.pemasukan)
+    setPengeluaran(dashboardData.pengeluaran)
+    console.log(dashboardData.pemasukan);
+    console.log(dashboardData.pengeluaran);
   };
 
   React.useEffect(() => {
@@ -81,8 +87,8 @@ export default function Home() {
         </Card>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-        <ChartPemasukan/>
-        <ChartPengeluaran/>
+        <ChartPemasukan data={pemasukan}/>
+        <ChartPengeluaran data={pengeluaran}/>
         <ChartPersentase/>
       </div>
     </div>
