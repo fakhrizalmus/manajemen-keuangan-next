@@ -29,14 +29,16 @@ const getAllPengeluaran = async (req, res) => {
         where,
         order: [
             ['tanggal', 'DESC']
-        ]
+        ],
     }
-    if (page) options.limit = page;
-    if (row) options.offset = row;
+    if (page) options.offset = parseInt(page);
+    if (row) options.limit = parseInt(row) || 10;
 
     const allPengeluaran = await Pengeluaran.findAll(options);
+    const countAllPengeluaran = await Pengeluaran.findAndCountAll(options)
     return res.status(200).json({
-        data: allPengeluaran
+        data: allPengeluaran,
+        count: countAllPengeluaran
     })
 }
 
