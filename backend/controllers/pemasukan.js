@@ -27,7 +27,8 @@ const getAllPemasukan = async (req, res) => {
         ],
         where,
         order: [
-            ['tanggal', 'DESC']
+            ['tanggal', 'DESC'],
+            ['id', 'DESC']
         ],
     }
     if (page) options.offset = parseInt(page);
