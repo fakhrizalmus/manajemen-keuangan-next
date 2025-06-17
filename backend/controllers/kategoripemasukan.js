@@ -53,7 +53,7 @@ const updateKategoriPemasukan = async (req, res) => {
     if (nama_kategori) {
         cariKategoriPemasukan.nama_kategori = nama_kategori
     }
-    const updatePemasukan = await cariPemasukan.save()
+    const updatePemasukan = await cariKategoriPemasukan.save()
     if (updatePemasukan) {
         return res.status(200).json({
             data: updatePemasukan
