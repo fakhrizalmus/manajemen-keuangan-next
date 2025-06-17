@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeProvider } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
 import "toastr/build/toastr.min.css";
+import { Github, Gitlab, Linkedin, Mail } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,13 +52,16 @@ export default function RootLayout({
                 <span>© {new Date().getFullYear()} Manajemen Keuangan</span>
                 <div className="flex gap-4">
                   <a href="https://github.com/fakhrizalmus" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    GitHub
+                    <Github/>
                   </a>
                   <a href="https://www.linkedin.com/in/fakhrizalmustaqim" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    LinkedIn
+                    <Linkedin/>
                   </a>
                   <a href="https://gitlab.com/fakhrizaluciha" target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    GitLab
+                    <Gitlab/>
+                  </a>
+                  <a href="mailto:rizalmustaqim150@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    <Mail/>
                   </a>
                 </div>
               </footer>
