@@ -4,7 +4,6 @@ const model = require('../models')
 
 const getAllPemasukan = async (req, res) => {
     let {page, row, kategori_pemasukan_id, id} = req.query
-    page -= 1
 
     const where = {}
     if (kategori_pemasukan_id) {
@@ -34,11 +33,9 @@ const getAllPemasukan = async (req, res) => {
     if (page) options.offset = parseInt(page);
     if (row) options.limit = parseInt(row) || 10;
 
-    const allPemasukan = await Pemasukan.findAll(options);
     const countAllPemasukan = await Pemasukan.findAndCountAll(options)
     return res.status(200).json({
-        data: allPemasukan,
-        count: countAllPemasukan
+        data: countAllPemasukan
     })
 }
 

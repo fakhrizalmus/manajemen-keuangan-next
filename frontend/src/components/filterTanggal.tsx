@@ -56,13 +56,11 @@ export default function FilterTanggal({
 
     // // Untuk Tanggal Awal
     const [openStart, setOpenStart] = React.useState(false)
-    // // const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(firstDayOfMonth))
     const [startMonth, setStartMonth] = React.useState<Date | undefined>(startDate)
     const [startValue, setStartValue] = React.useState(formatDate(startDate))
 
     // // Untuk Tanggal Akhir
     const [openEnd, setOpenEnd] = React.useState(false)
-    // // const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(lastDayOfMonth))
     const [endMonth, setEndMonth] = React.useState<Date | undefined>(endDate)
     const [endValue, setEndValue] = React.useState(formatDate(endDate))
 

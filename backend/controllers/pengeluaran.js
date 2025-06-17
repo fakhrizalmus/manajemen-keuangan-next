@@ -4,7 +4,6 @@ const model = require('../models')
 
 const getAllPengeluaran = async (req, res) => {
     let {page, row, kategori_pengeluaran_id, id, start_date, end_date} = req.query
-    page -= 1
 
     const where = {}
     if (kategori_pengeluaran_id) {
@@ -34,11 +33,9 @@ const getAllPengeluaran = async (req, res) => {
     if (page) options.offset = parseInt(page);
     if (row) options.limit = parseInt(row) || 10;
 
-    const allPengeluaran = await Pengeluaran.findAll(options);
     const countAllPengeluaran = await Pengeluaran.findAndCountAll(options)
     return res.status(200).json({
-        data: allPengeluaran,
-        count: countAllPengeluaran
+        data: countAllPengeluaran
     })
 }
 

@@ -29,12 +29,15 @@ export default function Pengeluaran() {
     const [kategoriList, setKategoriList] = useState<any[]>([]);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [pengeluaranData, setPengeluaranData] = useState<any[]>([]);
+    const [countPengeluaranData, setCountPengeluaranData] = useState<number>(0)
     const [dialogOpen, setDialogOpen] = useState(false);
     const today = new Date();
     const awalBulan = new Date(today.getFullYear(), today.getMonth(), 1);
     const akhirBulan = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     const [startDate, setStartDate] = React.useState<Date | undefined>(awalBulan);
     const [endDate, setEndDate] = React.useState<Date | undefined>(akhirBulan);
+    const [pageSize, setPageSize] = React.useState<number>(10)
+    const [pageIndex, setPageIndex] = React.useState<number>(0)
 
     const fetchData = async () => {
         const [kategoriRes, pengeluaranRes] = await Promise.all([
@@ -42,15 +45,18 @@ export default function Pengeluaran() {
             getPengeluaran({
                 start_date: moment(startDate).format("YYYY-MM-DD"),
                 end_date: moment(endDate).format("YYYY-MM-DD"),
+                row: pageSize,
+                page: pageIndex * pageSize
             }),
         ]);
         setKategoriList(kategoriRes.data);
-        setPengeluaranData(pengeluaranRes.data);
+        setPengeluaranData(pengeluaranRes.data.rows);
+        setCountPengeluaranData(pengeluaranRes.data.count)
     };
 
     React.useEffect(() => {
         fetchData();
-    }, []);
+    }, [pageIndex, pageSize]);
 
     const [jumlah, setJumlah] = useState("");
 
@@ -226,7 +232,15 @@ export default function Pengeluaran() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable data={pengeluaranData} onDelete={handleDelete} refetch={fetchData} />
+                    <DataTable 
+                        data={pengeluaranData} 
+                        count={countPengeluaranData}
+                        onDelete={handleDelete} 
+                        refetch={fetchData}
+                        pageIndex={pageIndex}
+                        pageSize={pageSize}
+                        setPageIndex={setPageIndex}
+                        setPageSize={setPageSize} />
                 </div>
             </div>
         </div>

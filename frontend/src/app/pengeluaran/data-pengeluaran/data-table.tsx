@@ -53,18 +53,22 @@ import { getColumns, DataPengeluaran } from "./columns"
 import EditModal from "./editmodal"
 import { getPengeluaran } from "./actions"
 
-export function DataTable({ data, onDelete, refetch }: { 
+type Props = {
+    pageSize: number | 10
+    pageIndex: number | 0
+    setPageSize: React.Dispatch<React.SetStateAction<number>>
+    setPageIndex: React.Dispatch<React.SetStateAction<number>>
+}
+
+export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex, setPageSize, setPageIndex }: { 
   data: DataPengeluaran[], 
+  count: number,
   onDelete: (id: number) => void,
   refetch: () => void
-}) {
+} & Props) {
   const [selectedIdToDelete, setSelectedIdToDelete] = React.useState<number | null>(null)
   const [selectedIdToEdit, setSelectedIdToEdit] = React.useState<number | null>(null)
   const columns = React.useMemo(() => getColumns(setSelectedIdToDelete, setSelectedIdToEdit), [])
-  const [pagination, setPagination] = React.useState({
-      pageIndex: 0,
-      pageSize: 10,
-  })
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -96,8 +100,18 @@ export function DataTable({ data, onDelete, refetch }: {
       columnFilters,
       columnVisibility,
       rowSelection,
-      pagination
+      pagination: {
+        pageIndex: pageIndex ?? 0,
+        pageSize: pageSize ?? 10
+      }
     },
+    onPaginationChange: (updater) => {
+      const next = typeof updater === 'function' ? updater({ pageIndex, pageSize }) : updater
+      setPageIndex(next.pageIndex)
+      setPageSize(next.pageSize)
+    },
+    manualPagination: true,
+    pageCount: Math.ceil(count / (pageSize || 10)),
     getRowId: (row) => row.id.toString(),
   })
 
@@ -254,6 +268,9 @@ export function DataTable({ data, onDelete, refetch }: {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex w-fit items-center justify-center text-sm font-medium">
+            Total row: {count}
           </div>
           <div className="flex w-fit items-center justify-center text-sm font-medium">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
