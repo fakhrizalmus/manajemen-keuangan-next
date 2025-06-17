@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { getKategoriPengeluaran, putKategoriPengeluaran } from "./actions"
-import { KategoriPengeluaran } from "./columns"
+import { getKategoriPemasukan, putKategoriPemasukan } from "./actions"
+import { KategoriPemasukan } from "./columns"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -23,8 +23,8 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
 
     React.useEffect(() => {
         if (id !== null) {
-            getKategoriPengeluaran({ id }).then((res) => {
-                const data: KategoriPengeluaran = res.data[0]
+            getKategoriPemasukan({ id }).then((res) => {
+                const data: KategoriPemasukan = res.data[0]
                 setForm({
                     nama_kategori: data.nama_kategori
                 })
@@ -35,7 +35,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
     const handleSubmit = async () => {
         try {
             setLoading(true)
-            await putKategoriPengeluaran(form, id!)
+            await putKategoriPemasukan(form, id!)
             onSuccess()
             onClose()
         } catch (err) {
