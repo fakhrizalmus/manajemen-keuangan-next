@@ -79,9 +79,11 @@ export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex,
   const [selectedData, setSelectedData] = React.useState<DataPengeluaran>()
 
   React.useEffect(() => {
-    getPengeluaran({id: selectedIdToDelete}).then((res) => {
-      setSelectedData(res.data[0])
-    })
+    if (selectedIdToDelete !== null) {
+      getPengeluaran({ id: selectedIdToDelete ?? undefined }).then((res) => {
+        setSelectedData(res.data[0])
+      })
+    }
   }, [selectedIdToDelete])
 
   const table = useReactTable({

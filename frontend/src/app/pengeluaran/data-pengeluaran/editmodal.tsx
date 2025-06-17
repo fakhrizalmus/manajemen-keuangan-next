@@ -39,7 +39,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                 setKategoriList(res.data);
             })
             getPengeluaran({ id }).then((res) => {
-                const data: DataPengeluaran = res.data[0]
+                const data: DataPengeluaran = res.data.rows[0]
                 const tanggal = data.tanggal;
                 const tanggalDate = tanggal ? new Date(tanggal) : undefined;
 

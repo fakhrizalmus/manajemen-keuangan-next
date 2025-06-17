@@ -94,8 +94,14 @@ export default function Pengeluaran() {
             };
             const res = await postPengeluaran(newFormData)
             console.log('Berhasil simpan data ', res);
-            const pengeluaran = await getPengeluaran({})
-            setPengeluaranData(pengeluaran.data)
+            const pengeluaran = await getPengeluaran({
+                start_date: moment(startDate).format("YYYY-MM-DD"),
+                end_date: moment(endDate).format("YYYY-MM-DD"),
+                row: pageSize,
+                page: pageIndex * pageSize
+            })
+            setPengeluaranData(pengeluaran.data.rows);
+            setCountPengeluaranData(pengeluaran.data.count)
             setDialogOpen(false);
         } catch (err) {
             console.log('tes gagal');
@@ -107,8 +113,14 @@ export default function Pengeluaran() {
         try {
             await deletePengeluaran(id)
             // refresh data atau fetch ulang dari server
-            const pengeluaran = await getPengeluaran({})
-            setPengeluaranData(pengeluaran.data)
+            const pengeluaran = await getPengeluaran({
+                start_date: moment(startDate).format("YYYY-MM-DD"),
+                end_date: moment(endDate).format("YYYY-MM-DD"),
+                row: pageSize,
+                page: pageIndex * pageSize
+            })
+            setPengeluaranData(pengeluaran.data.rows);
+            setCountPengeluaranData(pengeluaran.data.count)
         } catch (error) {
             console.error("Gagal menghapus data:", error)
         }
