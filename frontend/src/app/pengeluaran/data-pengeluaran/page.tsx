@@ -121,16 +121,16 @@ export default function Pengeluaran() {
                         Data Pengeluaran
                     </CardTitle>
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                        <div className="w-fit">
+                        <div className="flex items-end gap-4">
                             <FilterTanggal
                             startDate={startDate}
                             endDate={endDate}
                             setStartDate={setStartDate}
                             setEndDate={setEndDate} />
+                            <Button 
+                                className="bg-green-400"
+                                onClick={() => fetchData()}>Cari</Button>
                         </div>
-                        <Button 
-                            className="bg-green-400 w-fit"
-                            onClick={() => fetchData()}>Cari</Button>
                         <DialogTrigger asChild>
                             <Button className="mt-3 bg-green-400 w-fit" onClick={() => setDialogOpen(true)}>
                                 <IconPlus />Add Pengeluaran
