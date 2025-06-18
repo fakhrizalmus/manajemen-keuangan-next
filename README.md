@@ -48,3 +48,4 @@ npm run dev
 
 ### Required SDK
 - node version `20.19.2^`
+- mysql version `10.4.18^`
