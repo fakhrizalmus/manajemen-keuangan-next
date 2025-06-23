@@ -33,22 +33,22 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
   const foundPassword = await User.findOne({
     where: {
-      name: name,
+      email: email,
     },
   });
   if (!foundPassword) {
     res.status(400).json({
-        message: "Password atau name salah!"
+        message: "Password atau email salah!"
     })
   }
   const validasi = bcrypt.compareSync(password, foundPassword.password);
   if (validasi) {
     const userData = {
       id: foundPassword.id,
-      name: foundPassword.name,
+      email: foundPassword.email,
     };
     var token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: "12h" });
     return res.status(201).json({
