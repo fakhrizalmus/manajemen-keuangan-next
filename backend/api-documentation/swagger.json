@@ -11,20 +11,20 @@
   "basePath": "/v1",
   "tags": [
     {
-      "name": "nasabah",
-      "description": "Everything about Nasabah Data"
+      "name": "Pemasukan",
+      "description": "Everything about Pemasukan Data"
     },
     {
-      "name": "rekening",
-      "description": "Everything about Rekening Data"
+      "name": "Pengeluaran",
+      "description": "Everything about Pengeluaran Data"
     },
     {
-      "name": "cabang bank",
-      "description": "Everything about Cabang Bank Data"
+      "name": "Kategori Pemasukan",
+      "description": "Everything about Kategori Pemasukan Data"
     },
     {
-      "name": "transaksi",
-      "description": "Everything about Transaksi Data"
+      "name": "Kategori Pengeluaran",
+      "description": "Everything about Kategori Pengeluaran Data"
     },
     {
       "name": "nasabah has rekening",
@@ -36,13 +36,13 @@
     "https"
   ],
   "paths": {
-    "/nasabah": {
+    "/pemasukan": {
       "post": {
         "tags": [
-          "nasabah"
+          "Pemasukan"
         ],
-        "summary": "Add a new nasabah to the administration",
-        "description": "Post Nasabah",
+        "summary": "Add a new pemasukan",
+        "description": "Post Pemasukan",
         "consumes": [
           "application/json"
         ],
@@ -53,10 +53,10 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Nasabah object that needs to be added to the administration",
+            "description": "Pemasukan object that needs to be added to the administration",
             "required": true,
             "schema": {
-              "$ref":"#definitions/Nasabah"
+              "$ref":"#definitions/Pemasukan"
             }
           }
         ],
@@ -74,16 +74,19 @@
       },
       "get": {
         "tags": [
-          "nasabah"
+          "Pemasukan"
         ],
-        "summary": "Get all nasabah data",
+        "summary": "Get all pemasukan data",
         "description": "Get Nasabah",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "schema": {
+              "$ref":"#definitions/Pemasukan"
+            }
           },
           "405": {
             "description": "Invalid input"
@@ -816,18 +819,27 @@
     }
   },
   "definitions": {
-    "Nasabah": {
+    "Pemasukan": {
       "type": "object",
       "properties": {
-        "nama_nasabah": {
+        "kategori_pemasukan_id": {
+          "type": "integer"
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "jumlah": {
+          "type": "integer"
+        },
+        "tanggal": {
           "type": "string"
         },
-        "alamat_nasabah": {
+        "keterangan": {
           "type": "string"
         }
       },
       "xml": {
-        "name": "Nasabah"
+        "name": "Pemasukan"
       }
     },
     "Rekening": {
