@@ -29,11 +29,10 @@ export async function register(data: {
     }
 }
 
-export async function logout(data: {
-    id: number
-}) {
+export async function logout() {
     try {
         localStorage.removeItem('token')
+        window.location.href = "/login";
     } catch (error) {
         console.log(error);
         throw error
