@@ -6,6 +6,7 @@ export async function login(data: {
 }) {
     try {
         const res = await api.post('/auth/login', data)
+        localStorage.setItem('token', res.data.Token);
         return res.data
     } catch (error) {
         console.log(error);
@@ -21,6 +22,17 @@ export async function register(data: {
     try {
         const res = await api.post('/auth/register', data)
         return res.data
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+export async function logout(data: {
+    id: number
+}) {
+    try {
+        localStorage.removeItem('token')
     } catch (error) {
         console.log(error);
         throw error
