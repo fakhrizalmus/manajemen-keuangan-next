@@ -1631,6 +1631,96 @@
           }
         }
       }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register",
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "Email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "Authorization": {
+                "description": "Bearer token used for authenticated requests",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "Email"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "Password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
     }
   },
   "components": {
