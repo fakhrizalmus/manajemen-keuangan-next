@@ -1,0 +1,922 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Manajemen Keuangan",
+    "contact": {
+      "email": "rizalmustaqim150@gmail.com"
+    }
+  },
+  "host": "localhost:PORT",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "nasabah",
+      "description": "Everything about Nasabah Data"
+    },
+    {
+      "name": "rekening",
+      "description": "Everything about Rekening Data"
+    },
+    {
+      "name": "cabang bank",
+      "description": "Everything about Cabang Bank Data"
+    },
+    {
+      "name": "transaksi",
+      "description": "Everything about Transaksi Data"
+    },
+    {
+      "name": "nasabah has rekening",
+      "description": "Everything about Nasabah has Rekening Data"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/nasabah": {
+      "post": {
+        "tags": [
+          "nasabah"
+        ],
+        "summary": "Add a new nasabah to the administration",
+        "description": "Post Nasabah",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nasabah object that needs to be added to the administration",
+            "required": true,
+            "schema": {
+              "$ref":"#definitions/Nasabah"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description":"Bad Request"
+          },
+          "201": {
+            "description":"Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "nasabah"
+        ],
+        "summary": "Get all nasabah data",
+        "description": "Get Nasabah",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/nasabah/{id}": {
+      "delete": {
+        "tags": [
+          "nasabah"
+        ],
+        "summary":"Delete nasabah by Id",
+        "description":"Delete nasabah by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Enter the id you want to delete",
+            "schema":{
+              "type":"integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data is deleted"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "nasabah"
+        ],
+        "summary": "Get nasabah by Id",
+        "description": "Get nasabah by Id",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Enter the id you want to display",
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags":[
+          "nasabah"
+        ],
+        "summary":"Put nasabah by Id",
+        "description":"Put nasabah by Id",
+        "consumes":[
+          "application/json"
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in":"path",
+            "name":"id",
+            "description":"Enter the id you want to update",
+            "schema": {
+              "type":"integer"
+            },
+            "required":true
+          },
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Enter the object you want to update",
+            "required":true,
+            "schema": {
+              "$ref":"#definitions/Nasabah"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/rekening": {
+      "post": {
+        "tags": [
+          "rekening"
+        ],
+        "summary": "Add a new rekening to the administration",
+        "description": "Post rekening",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Rekening object that needs to be added to the administration",
+            "required": true,
+            "schema": {
+              "$ref":"#definitions/Rekening"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "201": {
+            "description":"Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "rekening"
+        ],
+        "summary": "Get all rekening data",
+        "description": "Get all rekening data",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/rekening/{id}": {
+      "delete": {
+        "tags": [
+          "rekening"
+        ],
+        "summary":"Delete rekening by Id",
+        "description":"Delete rekening by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Enter the id you want to delete",
+            "schema":{
+              "type":"integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data is deleted"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "rekening"
+        ],
+        "summary": "Get rekening by Id",
+        "description": "Get rekening by Id",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Enter the id you want to display",
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags":[
+          "rekening"
+        ],
+        "summary":"Put rekening by Id",
+        "description":"",
+        "parameters": [
+          {
+            "in":"path",
+            "name":"id",
+            "description":"Enter the id you want to update",
+            "schema": {
+              "type":"integer"
+            },
+            "required":true
+          },
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Enter the object you want to update",
+            "required":true,
+            "schema": {
+              "$ref":"#definitions/Rekening"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/cabangBank": {
+      "post": {
+        "tags": [
+          "cabang bank"
+        ],
+        "summary": "Add a new cabang bank to the administrasi",
+        "description": "Post cabang bank",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enter the id you want to display",
+            "required": true,
+            "schema": {
+              "$ref":"#definitions/Cabang Bank"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+    "get": {
+      "tags": [
+        "cabang bank"
+      ],
+      "summary": "Get all cabang bank data",
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "405": {
+          "description": "Invalid input"
+        },
+        "400": {
+          "description": "Bad Request"
+        }
+      }
+    }
+  },
+    "/cabangBank/{id}": {
+      "delete": {
+        "tags": [
+          "cabang bank"
+        ],
+        "summary":"Delete cabang bank by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Enter the id you want to delete",
+            "schema":{
+              "type":"integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data is deleted"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "cabang bank"
+        ],
+        "summary": "Get cabang bank by Id",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Enter the id you want to display",
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags":[
+          "cabang bank"
+        ],
+        "summary":"Put cabang bank by Id",
+        "description":"",
+        "parameters": [
+          {
+            "in":"path",
+            "name":"id",
+            "schema": {
+              "type":"integer"
+            },
+            "required":true
+          },
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Enter the id you want to update",
+            "required":true,
+            "schema": {
+              "$ref":"#definitions/Cabang Bank"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/transaksi": {
+      "post": {
+        "tags": [
+          "transaksi"
+        ],
+        "summary": "Add a new transaksi to the administration",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Transaksi object that needs to be added to the administration",
+            "required": true,
+            "schema": {
+              "$ref":"#definitions/Transaksi"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "transaksi"
+        ],
+        "summary": "Get all transaksi data",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/transaksi/{id}": {
+      "delete": {
+        "tags": [
+          "transaksi"
+        ],
+        "summary":"Delete transaksi by Id",
+        "description":"Delete transaksi by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Enter the id you want to delete",
+            "schema":{
+              "type":"integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data is deleted"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "transaksi"
+        ],
+        "summary": "Get transaksi by Id",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Enter the id you want to display",
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags":[
+          "transaksi"
+        ],
+        "summary":"Put transaksi by Id",
+        "parameters": [
+          {
+            "in":"path",
+            "name":"id",
+            "description":"Enter the id you want to update",
+            "schema": {
+              "type":"integer"
+            },
+            "required":true
+          },
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Enter the object you want to update",
+            "required":true,
+            "schema": {
+              "$ref":"#definitions/Transaksi"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/nasabahRekening": {
+      "post": {
+        "tags": [
+          "nasabah has rekening"
+        ],
+        "summary": "Add a new nasabah has rekening to the administration",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nasabah has rekening object that needs to be added to the administration",
+            "required": true,
+            "schema": {
+              "$ref":"#definitions/Nasabah has Rekening"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "nasabah has rekening"
+        ],
+        "summary": "Get all nasabah has rekening data",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/nasabahRekening/{id}": {
+      "delete": {
+        "tags": [
+          "nasabah has rekening"
+        ],
+        "summary":"Delete nasabah has rekening by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description":"Enter the id you want to delete",
+            "schema":{
+              "type":"integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data is deleted"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "nasabah has rekening"
+        ],
+        "summary": "Get nasabah has rekening by Id",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "description": "Enter the id you want to display",
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags":[
+          "nasabah has rekening"
+        ],
+        "summary":"Put nasabah has rekening by Id",
+        "parameters": [
+          {
+            "in":"path",
+            "name":"id",
+            "description":"Enter the id you want to update",
+            "schema": {
+              "type":"integer"
+            },
+            "required":true
+          },
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Enter the object you want to update",
+            "required":true,
+            "schema": {
+              "$ref":"#definitions/Nasabah has Rekening"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Nasabah": {
+      "type": "object",
+      "properties": {
+        "nama_nasabah": {
+          "type": "string"
+        },
+        "alamat_nasabah": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Nasabah"
+      }
+    },
+    "Rekening": {
+      "type": "object",
+      "properties": {
+        "pin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cabang_bank_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "saldo": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Rekening"
+      }
+    },
+    "Cabang Bank": {
+      "type": "object",
+      "properties": {
+        "nama_cabang": {
+          "type": "string"
+        },
+        "alamat_cabang": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Cabang Bank"
+      }
+    },
+    "Transaksi": {
+      "type": "object",
+      "properties": {
+        "nasabah_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rekening_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "jenis_transaki": {
+          "type": "string"
+        },
+        "tanggal": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "jumlah": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Transaksi"
+      }
+    },
+    "Nasabah has Rekening": {
+      "type": "object",
+      "properties": {
+        "nasabah_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rekening_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Pet"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
