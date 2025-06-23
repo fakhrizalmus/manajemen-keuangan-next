@@ -60,29 +60,17 @@ export default function Home() {
         <Card className="w-full max-w-sm bg-green-600">
           <CardHeader>
             <CardDescription className="text-white">Total Pemasukan</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
               {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPemasukan)}
             </CardTitle>
-            <CardAction>
-              <Badge variant="outline">
-                <IconTrendingUp />
-                +12.5%
-              </Badge>
-            </CardAction>
           </CardHeader>
         </Card>
         <Card className="w-full max-w-sm bg-red-700">
           <CardHeader>
             <CardDescription className="text-white">Total Pengeluaran</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
               {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPengeluaran)}
             </CardTitle>
-            <CardAction>
-              <Badge variant="outline">
-                <IconTrendingDown />
-                -20%
-              </Badge>
-            </CardAction>
           </CardHeader>
         </Card>
       </div>

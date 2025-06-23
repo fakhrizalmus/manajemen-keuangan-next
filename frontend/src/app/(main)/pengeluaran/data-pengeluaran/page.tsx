@@ -74,24 +74,23 @@ export default function Pengeluaran() {
         jumlah: 0,
         keterangan: "",
         tanggal: "",
-        kategori_pengeluaran_id: 0,
-        user_id: 0,
+        kategori_pengeluaran_id: 0
     })
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         try {
-            if (formData.jumlah <= 0 || !formData.keterangan) {
+            const newFormData = {
+                ...formData,
+                tanggal: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
+                kategori_pengeluaran_id: id ?? 0
+            };
+
+            if (formData.jumlah <= 0 || newFormData.kategori_pengeluaran_id == 0 || newFormData.tanggal == "") {
                 toastr.error('Isi semua field dengan benar')
                 return;
             }
 
-            const newFormData = {
-                ...formData,
-                tanggal: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
-                kategori_pengeluaran_id: id ?? 0,
-                user_id: 1,
-            };
             const res = await postPengeluaran(newFormData)
             console.log('Berhasil simpan data ', res);
             const pengeluaran = await getPengeluaran({
@@ -103,6 +102,14 @@ export default function Pengeluaran() {
             setPengeluaranData(pengeluaran.data.rows);
             setCountPengeluaranData(pengeluaran.data.count)
             setDialogOpen(false);
+            setFormData({
+                jumlah: 0,
+                keterangan: "",
+                tanggal: "",
+                kategori_pengeluaran_id: 0
+            });
+            setJumlah("");
+            setValue(null);
         } catch (err) {
             console.log('tes gagal');
             toastr.error('Gagal Menyimpan')
@@ -135,11 +142,11 @@ export default function Pengeluaran() {
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <div className="flex items-end gap-4">
                             <FilterTanggal
-                            startDate={startDate}
-                            endDate={endDate}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate} />
-                            <Button 
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate} />
+                            <Button
                                 className="bg-green-400"
                                 onClick={() => fetchData()}>Cari</Button>
                         </div>
@@ -244,10 +251,10 @@ export default function Pengeluaran() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable 
-                        data={pengeluaranData} 
+                    <DataTable
+                        data={pengeluaranData}
                         count={countPengeluaranData}
-                        onDelete={handleDelete} 
+                        onDelete={handleDelete}
                         refetch={fetchData}
                         pageIndex={pageIndex}
                         pageSize={pageSize}

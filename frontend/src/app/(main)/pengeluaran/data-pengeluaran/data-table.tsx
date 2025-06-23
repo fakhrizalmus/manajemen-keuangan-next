@@ -54,14 +54,14 @@ import EditModal from "./editmodal"
 import { getPengeluaran } from "./actions"
 
 type Props = {
-    pageSize: number | 10
-    pageIndex: number | 0
-    setPageSize: React.Dispatch<React.SetStateAction<number>>
-    setPageIndex: React.Dispatch<React.SetStateAction<number>>
+  pageSize: number | 10
+  pageIndex: number | 0
+  setPageSize: React.Dispatch<React.SetStateAction<number>>
+  setPageIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
-export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex, setPageSize, setPageIndex }: { 
-  data: DataPengeluaran[], 
+export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex, setPageSize, setPageIndex }: {
+  data: DataPengeluaran[],
   count: number,
   onDelete: (id: number) => void,
   refetch: () => void
@@ -202,9 +202,9 @@ export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex,
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   )
                 })}
@@ -247,7 +247,7 @@ export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex,
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="flex w-full items-center gap-8 lg:w-fit">
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <Label htmlFor="rows-per-page" className="text-sm font-medium">
               Rows per page
             </Label>

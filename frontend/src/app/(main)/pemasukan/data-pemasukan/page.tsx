@@ -74,24 +74,23 @@ export default function Pemasukan() {
         jumlah: 0,
         keterangan: "",
         tanggal: "",
-        kategori_pemasukan_id: 0,
-        user_id: 0,
+        kategori_pemasukan_id: 0
     })
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         try {
-            if (formData.jumlah <= 0 || !formData.keterangan) {
+            const newFormData = {
+                ...formData,
+                tanggal: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
+                kategori_pemasukan_id: id ?? 0
+            };
+
+            if (formData.jumlah <= 0 || newFormData.kategori_pemasukan_id == 0 || newFormData.tanggal == "") {
                 toastr.error('Isi semua field dengan benar')
                 return;
             }
 
-            const newFormData = {
-                ...formData,
-                tanggal: selectedDate ? format(selectedDate, "yyyy-MM-dd") : "",
-                kategori_pemasukan_id: id ?? 0,
-                user_id: 1,
-            };
             const res = await postPemasukan(newFormData)
             console.log('Berhasil simpan data ', res);
             const pemasukan = await getPemasukan({
@@ -103,6 +102,14 @@ export default function Pemasukan() {
             setPemasukanData(pemasukan.data.rows);
             setCountPemasukanData(pemasukan.data.count)
             setDialogOpen(false);
+            setFormData({
+                jumlah: 0,
+                keterangan: "",
+                tanggal: "",
+                kategori_pemasukan_id: 0
+            });
+            setJumlah("");
+            setValue(null);
         } catch (err) {
             console.log('tes gagal');
             toastr.error('Gagal Menyimpan')
@@ -135,11 +142,11 @@ export default function Pemasukan() {
                     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <div className="flex items-end gap-4">
                             <FilterTanggal
-                            startDate={startDate}
-                            endDate={endDate}
-                            setStartDate={setStartDate}
-                            setEndDate={setEndDate} />
-                            <Button 
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate} />
+                            <Button
                                 className="bg-green-400"
                                 onClick={() => fetchData()}>Cari</Button>
                         </div>
@@ -161,7 +168,7 @@ export default function Pemasukan() {
                                     <div className="grid grid-cols-2 gap-4">
                                         {/* Tanggal */}
                                         <div className="grid gap-3">
-                                            <Label htmlFor="tanggal">Tanggal</Label>
+                                            <Label htmlFor="tanggal">Tanggal <span className="text-red-500">*</span></Label>
                                             <div className="w-full">
                                                 <DatePicker date={selectedDate} setDate={setSelectedDate} />
                                             </div>
@@ -169,7 +176,7 @@ export default function Pemasukan() {
 
                                         {/* Kategori */}
                                         <div className="grid gap-3">
-                                            <Label htmlFor="name-1">Kategori</Label>
+                                            <Label htmlFor="name-1">Kategori <span className="text-red-500">*</span></Label>
                                             <Popover open={open} onOpenChange={setOpen}>
                                                 <PopoverTrigger asChild>
                                                     <Button
@@ -188,7 +195,7 @@ export default function Pemasukan() {
                                                     <Command>
                                                         <CommandInput placeholder="Cari kategori..." className="h-9" />
                                                         <CommandList>
-                                                            <CommandEmpty>No framework found.</CommandEmpty>
+                                                            <CommandEmpty>No kategori found.</CommandEmpty>
                                                             <CommandGroup>
                                                                 {kategoriList.map((item) => (
                                                                     <CommandItem
@@ -224,7 +231,7 @@ export default function Pemasukan() {
                                     {/* Jumlah */}
                                     <div className="flex gap-4">
                                         <div className="grid gap-3 flex-1">
-                                            <Label htmlFor="jumlah">Jumlah</Label>
+                                            <Label htmlFor="jumlah">Jumlah <span className="text-red-500">*</span></Label>
                                             <Input type="number" id="jumlah" name="jumlah" onChange={handleChange} />
                                         </div>
                                         <div className="grid gap-3 flex-1">
@@ -244,10 +251,10 @@ export default function Pemasukan() {
                             </form>
                         </DialogContent>
                     </Dialog>
-                    <DataTable 
-                        data={pemasukanData} 
+                    <DataTable
+                        data={pemasukanData}
                         count={countPemasukanData}
-                        onDelete={handleDelete} 
+                        onDelete={handleDelete}
                         refetch={fetchData}
                         pageIndex={pageIndex}
                         pageSize={pageSize}

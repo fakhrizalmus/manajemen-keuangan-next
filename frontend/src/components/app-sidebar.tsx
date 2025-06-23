@@ -27,14 +27,10 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { infoLogin } from "@/app/(auth)/actions"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -98,6 +94,23 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [infoUser, setInfoUser] = React.useState<{
+    email: string
+    name: string
+    id: number
+  } | null>(null);
+  const infologin = async () => {
+    try {
+      const res = await infoLogin()
+      setInfoUser(res.data)
+    } catch (error) {
+      throw error
+    }
+  }
+  React.useEffect(() => {
+    infologin();
+  }, []);
+  console.log(infoUser);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -108,7 +121,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {infoUser && <NavUser user={infoUser} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

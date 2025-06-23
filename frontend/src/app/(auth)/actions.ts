@@ -39,3 +39,14 @@ export async function logout() {
         throw error
     }
 }
+
+export async function infoLogin() {
+    try {
+        const res = await api.get("/auth/infologin")
+        console.log(res);
+        return res.data
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}

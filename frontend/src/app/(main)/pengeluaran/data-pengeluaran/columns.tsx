@@ -62,7 +62,7 @@ export function getColumns(
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tanggal <ArrowUpDown />
+          Tanggal
         </Button>
       ),
       cell: ({ row }) => {
@@ -90,7 +90,7 @@ export function getColumns(
     {
       accessorKey: "keterangan",
       header: "Keterangan",
-      cell: ({ row }) => <div className="capitalize">{row.getValue("keterangan")}</div>,
+      cell: ({ row }) => <div className="capitalize">{row.getValue("keterangan") || "-"}</div>,
     },
     {
       id: "actions",

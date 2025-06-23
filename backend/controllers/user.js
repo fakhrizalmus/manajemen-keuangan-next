@@ -61,7 +61,26 @@ const login = async (req, res) => {
   });
 };
 
+const infoLogin = async (req, res) => {
+  const id_user = req.user.id
+  const cariUser = await User.findOne({
+    attributes: ['id', 'name', 'email'],
+    where: {
+      id: id_user
+    }
+  })
+  if (!cariUser) {
+    return res.status(400).json({
+      message: "User not found"
+    })
+  }
+  return res.status(200).json({
+    data: cariUser
+  })
+}
+
 module.exports = {
     register,
-    login
+    login,
+    infoLogin
 }

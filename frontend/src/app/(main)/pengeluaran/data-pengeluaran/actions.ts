@@ -5,7 +5,6 @@ export async function postPengeluaran(data: {
     keterangan: string
     tanggal: string
     kategori_pengeluaran_id: number
-    user_id: number
 }) {
     try {
         console.log(data);
@@ -53,7 +52,6 @@ export async function putPengeluaran(data: {
     keterangan: string
     tanggal: string
     kategori_pengeluaran_id: number
-    user_id: number
 }, id: number) {
     try {
         console.log(data);
