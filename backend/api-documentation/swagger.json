@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "localhost:${PORT}"
+      "url": "localhost:${PORT}/api"
     }
   ],
   "paths": {
