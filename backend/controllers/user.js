@@ -1,4 +1,6 @@
 const {User} = require("../models")
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -26,6 +28,31 @@ const register = async (req, res) => {
     }
 }
 
+const login = async (req, res) => {
+  const { username, password } = req.body;
+  const foundPassword = await User.findOne({
+    where: {
+      username: username,
+    },
+  });
+  const validasi = bcrypt.compareSync(password, foundPassword.password);
+  if (validasi) {
+    const userData = {
+      id: foundPassword.id,
+      username: foundPassword.username,
+    };
+    var token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: "12h" });
+    return res.status(201).json({
+      Token: token,
+    });
+  }
+  return res.status(400).json({
+    status: "Tidak terdaftar",
+    message: "Coba lagi",
+  });
+};
+
 module.exports = {
-    register
+    register,
+    login
 }

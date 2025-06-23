@@ -3,7 +3,7 @@ const { Pemasukan } = require('../models')
 const model = require('../models')
 
 const getAllPemasukan = async (req, res) => {
-    let {page, row, kategori_pemasukan_id, id, start_date, end_date} = req.query
+    let {page, row, user_id, kategori_pemasukan_id, id, start_date, end_date} = req.query
 
     const where = {}
     if (kategori_pemasukan_id) {
@@ -17,6 +17,7 @@ const getAllPemasukan = async (req, res) => {
             [Op.between]: [start_date, end_date]
         }
     }
+    where.user_id = req.user.id
     const options = {
         attributes: ['id', 'jumlah', 'tanggal', 'keterangan'],
         include: [
