@@ -22,6 +22,7 @@ export async function register(data: {
 }) {
     try {
         const res = await api.post('/auth/register', data)
+        window.location.href = "/login";
         return res.data
     } catch (error) {
         console.log(error);

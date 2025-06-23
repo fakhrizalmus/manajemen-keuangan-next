@@ -12,15 +12,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import React, { useState } from "react"
-import { login } from "../actions"
+import { register } from "../actions"
 
-export function LoginForm({
+export function RegisterForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
     const [formData, setFormData] = useState({
         email: "",
-        password: ""
+        password: "",
+        name: ""
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +32,7 @@ export function LoginForm({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const res = await login(formData)
+            const res = await register(formData)
             console.log("Login berhasil:", res)
         } catch (error) {
             console.error("Login gagal:", error)
@@ -76,6 +77,17 @@ export function LoginForm({
                             </div>
                             <div className="grid gap-6">
                                 <div className="grid gap-3">
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input
+                                        id="name"
+                                        type="name"
+                                        name="name"
+                                        onChange={handleChange}
+                                        value={formData.name}
+                                        required
+                                    />
+                                </div>
+                                <div className="grid gap-3">
                                     <Label htmlFor="email">Email</Label>
                                     <Input
                                         id="email"
@@ -106,14 +118,8 @@ export function LoginForm({
                                         required />
                                 </div>
                                 <Button type="submit" className="w-full">
-                                    Login
+                                    Register
                                 </Button>
-                            </div>
-                            <div className="text-center text-sm">
-                                Don&apos;t have an account?{" "}
-                                <a href="/register" className="underline underline-offset-4">
-                                    Sign up
-                                </a>
                             </div>
                         </div>
                     </form>
