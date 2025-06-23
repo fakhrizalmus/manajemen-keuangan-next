@@ -22,7 +22,7 @@ const getAllPemasukan = async (req, res) => {
         include: [
             {
                 model: model.KategoriPemasukan,
-                attributes: ['nama_kategori']
+                attributes: ['id', 'nama_kategori']
             },
         ],
         where,
@@ -63,7 +63,7 @@ const addPemasukan = async (req, res) => {
 
 const updatePemasukan = async (req, res) => {
     const {id} = req.params
-    const {kategori_pemasukan_id, user_id, jumlah, tanggal, keterangan} = req.body
+    const {kategori_pemasukan_id, jumlah, tanggal, keterangan} = req.body
     const cariPemasukan = await Pemasukan.findByPk(id)
     if (!cariPemasukan) {
         return res.status(400).json({
@@ -72,9 +72,6 @@ const updatePemasukan = async (req, res) => {
     }
     if (kategori_pemasukan_id) {
         cariPemasukan.kategori_pemasukan_id = kategori_pemasukan_id
-    }
-    if (user_id) {
-        cariPemasukan.user_id = user_id
     }
     if (jumlah) {
         cariPemasukan.jumlah = jumlah

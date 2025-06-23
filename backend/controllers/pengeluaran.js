@@ -63,7 +63,7 @@ const addPengeluaran = async (req, res) => {
 
 const updatePengeluaran = async (req, res) => {
     const {id} = req.params
-    const {kategori_pengeluaran_id, user_id, jumlah, tanggal, keterangan} = req.body
+    const {kategori_pengeluaran_id, jumlah, tanggal, keterangan} = req.body
     const cariPengeluaran = await Pengeluaran.findByPk(id)
     if (!cariPengeluaran) {
         return res.status(400).json({
@@ -72,9 +72,6 @@ const updatePengeluaran = async (req, res) => {
     }
     if (kategori_pengeluaran_id) {
         cariPengeluaran.kategori_pengeluaran_id = kategori_pengeluaran_id
-    }
-    if (user_id) {
-        cariPengeluaran.user_id = user_id
     }
     if (jumlah) {
         cariPengeluaran.jumlah = jumlah
