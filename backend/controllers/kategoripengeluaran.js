@@ -8,6 +8,7 @@ const getAllKategoriPengeluaran = async (req, res) => {
     if (id) {
         where.id = id
     }
+    where.user_id = req.user.id
     const options = {
         attributes: ['id', 'nama_kategori'],
         where,
@@ -24,10 +25,10 @@ const getAllKategoriPengeluaran = async (req, res) => {
 }
 
 const addKategoriPengeluaran = async (req, res) => {
-    const {nama_kategori, user_id} = req.body
+    const {nama_kategori} = req.body
     const kategoriPengeluaranData = {
         nama_kategori: nama_kategori,
-        user_id: user_id
+        user_id: req.user.id
     }
     if (kategoriPengeluaranData) {
         const addKategoriPengeluaran = await KategoriPengeluaran.create(kategoriPengeluaranData)

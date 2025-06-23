@@ -12,11 +12,13 @@ const getAllPengeluaran = async (req, res) => {
     if (id) {
         where.id = id
     }
+    where.user_id = req.user.id
     if (start_date && end_date) {
         where.tanggal = {
             [Op.between]: [start_date, end_date]
         }
     }
+    where.user_id = req.user.id
     const options = {
         attributes: ['id', 'jumlah', 'tanggal', 'keterangan'],
         include: [
@@ -41,10 +43,10 @@ const getAllPengeluaran = async (req, res) => {
 }
 
 const addPengeluaran = async (req, res) => {
-    const {kategori_pengeluaran_id, user_id, jumlah, tanggal, keterangan} = req.body
+    const {kategori_pengeluaran_id, jumlah, tanggal, keterangan} = req.body
     const pengeluaranData = {
         kategori_pengeluaran_id: kategori_pengeluaran_id,
-        user_id, user_id,
+        user_id: req.user.id,
         jumlah: jumlah,
         tanggal: tanggal,
         keterangan: keterangan

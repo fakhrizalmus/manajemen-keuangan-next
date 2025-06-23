@@ -23,23 +23,32 @@ const register = async (req, res) => {
     } else {
         const addUser = await User.create(userData)
         return res.status(201).json({
-            data: userData
+            data: {
+                name: name,
+                email: email,
+                password: addUser.password
+            }
         })
     }
 }
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { name, password } = req.body;
   const foundPassword = await User.findOne({
     where: {
-      username: username,
+      name: name,
     },
   });
+  if (!foundPassword) {
+    res.status(400).json({
+        message: "Password atau name salah!"
+    })
+  }
   const validasi = bcrypt.compareSync(password, foundPassword.password);
   if (validasi) {
     const userData = {
       id: foundPassword.id,
-      username: foundPassword.username,
+      name: foundPassword.name,
     };
     var token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: "12h" });
     return res.status(201).json({

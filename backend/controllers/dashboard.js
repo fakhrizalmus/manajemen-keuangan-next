@@ -2,11 +2,14 @@ const {sequelize} = require('../models')
 
 const dashboard = async (req, res) => {
     let {start_date, end_date} = req.query
-    let where = `WHERE p.tanggal BETWEEN '${start_date}' AND '${end_date}'`
+    let {user_id} = req.user.id
+    let where = `WHERE p.tanggal BETWEEN '${start_date}' AND '${end_date}'
+    AND user_id ${user_id}`
 
     const [countpemasukan] = await sequelize.query(
         `SELECT sum(jumlah) as jumlah from pemasukans
-        WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'`,
+        WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'
+        AND user_id ${user_id}`,
         {
             type: sequelize.QueryTypes.SELECT,
         }
@@ -14,7 +17,8 @@ const dashboard = async (req, res) => {
 
     const [countpengeluaran] = await sequelize.query(
         `SELECT sum(jumlah) as jumlah from pengeluarans 
-        WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'`,
+        WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'
+        AND user_id ${user_id}`,
         {
             type: sequelize.QueryTypes.SELECT,
         }
