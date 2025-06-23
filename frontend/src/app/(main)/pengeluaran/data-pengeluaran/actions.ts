@@ -29,6 +29,7 @@ type GetPengeluaranParams = {
     id?: number
     start_date?: string
     end_date?: string
+    user_id?: number
 }
 
 export async function getPengeluaran(params: GetPengeluaranParams) {

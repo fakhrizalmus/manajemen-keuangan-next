@@ -16,6 +16,7 @@ export async function postKategoriPemasukan(data: {
 
 type GetKategoriPemasukanParams = {
     id?: number
+    user_id?: number
 }
 
 export async function getKategoriPemasukan(params: GetKategoriPemasukanParams) {

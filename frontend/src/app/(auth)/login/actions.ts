@@ -1,12 +1,13 @@
 import api from '@/lib/axios'
 
 export async function login(data: {
-    name: string,
+    email: string,
     password: string
 }) {
     try {
         const res = await api.post('/auth/login', data)
         localStorage.setItem('token', res.data.Token);
+        window.location.href = "/";
         return res.data
     } catch (error) {
         console.log(error);

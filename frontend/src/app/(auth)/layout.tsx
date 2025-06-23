@@ -1,3 +1,5 @@
+import "@/lib/globals.css";
+
 export default function LoginLayout({
     children,
 }: Readonly<{

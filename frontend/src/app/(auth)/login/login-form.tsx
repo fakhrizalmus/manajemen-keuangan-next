@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -9,11 +11,32 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import React, { useState } from "react"
+import { login } from "./actions"
 
 export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        try {
+            const res = await login(formData)
+            console.log("Login berhasil:", res)
+        } catch (error) {
+            console.error("Login gagal:", error)
+        }
+    }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -24,7 +47,7 @@ export function LoginForm({
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="grid gap-6">
                             <div className="flex flex-col gap-4">
                                 <Button variant="outline" className="w-full">
@@ -57,7 +80,10 @@ export function LoginForm({
                                     <Input
                                         id="email"
                                         type="email"
+                                        name="email"
                                         placeholder="m@example.com"
+                                        onChange={handleChange}
+                                        value={formData.email}
                                         required
                                     />
                                 </div>
@@ -71,7 +97,13 @@ export function LoginForm({
                                             Forgot your password?
                                         </a>
                                     </div>
-                                    <Input id="password" type="password" required />
+                                    <Input 
+                                        id="password" 
+                                        type="password" 
+                                        name="password"
+                                        onChange={handleChange} 
+                                        value={formData.password}
+                                        required />
                                 </div>
                                 <Button type="submit" className="w-full">
                                     Login
