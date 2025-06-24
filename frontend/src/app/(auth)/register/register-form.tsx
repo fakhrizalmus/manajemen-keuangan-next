@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import React, { useState } from "react"
 import { register } from "../actions"
+import { Eye, EyeOff } from "lucide-react"
 
 export function RegisterForm({
     className,
@@ -37,6 +38,12 @@ export function RegisterForm({
         } catch (error) {
             console.error("Login gagal:", error)
         }
+    }
+
+    const [showPassword, setShowPassword] = useState(false)
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prev) => !prev)
     }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -75,13 +82,23 @@ export function RegisterForm({
                                     <div className="flex items-center">
                                         <Label htmlFor="password">Password</Label>
                                     </div>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        name="password"
-                                        onChange={handleChange}
-                                        value={formData.password}
-                                        required />
+                                    <div className="relative">
+                                        <Input
+                                            id="password"
+                                            type={showPassword ? "text" : "password"}
+                                            name="password"
+                                            onChange={handleChange}
+                                            value={formData.password}
+                                            required />
+                                        <button
+                                            type="button"
+                                            onClick={togglePasswordVisibility}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                                            tabIndex={-1}
+                                            >
+                                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                        </button>
+                                    </div>
                                 </div>
                                 <Button type="submit" className="w-full">
                                     Register
