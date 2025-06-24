@@ -5,12 +5,13 @@ const dashboard = async (req, res) => {
     let user_id = req.user.id
     console.log(req.user.id);
     let where = `WHERE p.tanggal BETWEEN '${start_date}' AND '${end_date}'
-    AND p.user_id = ${user_id}`
+    AND p.user_id = ${user_id}
+    AND p.deletedAt IS NULL`
 
     const [countpemasukan] = await sequelize.query(
         `SELECT sum(jumlah) as jumlah from pemasukans
         WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'
-        AND user_id = ${user_id}`,
+        AND user_id = ${user_id} AND deletedAt IS NULL`,
         {
             type: sequelize.QueryTypes.SELECT,
         }
@@ -19,7 +20,7 @@ const dashboard = async (req, res) => {
     const [countpengeluaran] = await sequelize.query(
         `SELECT sum(jumlah) as jumlah from pengeluarans 
         WHERE tanggal BETWEEN '${start_date}' AND '${end_date}'
-        AND user_id = ${user_id}`,
+        AND user_id = ${user_id} AND deletedAt IS NULL`,
         {
             type: sequelize.QueryTypes.SELECT,
         }
@@ -53,7 +54,8 @@ const dashboard = async (req, res) => {
             countpengeluaran: Number(countpengeluaran.jumlah),
             pemasukan: pemasukan,
             pengeluaran: pengeluaran,
-            persentase: persentase
+            persentase: persentase,
+            selisih: Number(countpemasukan.jumlah) - Number(countpengeluaran.jumlah)
         })
     }
     return res.status(400).json({

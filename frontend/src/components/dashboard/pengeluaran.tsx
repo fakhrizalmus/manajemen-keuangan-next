@@ -27,6 +27,9 @@ const COLORS = [
   "var(--chart-5)",
   "var(--chart-6)",
   "var(--chart-7)",
+  "var(--chart-8)",
+  "var(--chart-9)",
+  "var(--chart-10)",
 ]
 
 export function ChartPengeluaran({ data, start_date, end_date }: {
@@ -71,7 +74,7 @@ export function ChartPengeluaran({ data, start_date, end_date }: {
             </Pie>
             <ChartLegend
               content={<ChartLegendContent nameKey="name" />}
-              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+              className="-translate-y-2 flex-wrap gap-2 *:basis1/6 *:justify-center"
             />
           </PieChart>
         </ChartContainer>

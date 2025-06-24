@@ -17,6 +17,7 @@ import { dashboard } from "./actions";
 export default function Home() {
   const [countPemasukan, setCountPemasukanData] = useState<number>(0)
   const [countPengeluaran, setCountPengeluaranData] = useState<number>(0)
+  const [selisih, setSelisih] = useState<number>(0)
   const [pemasukan, setPemasukan] = useState<any[]>([])
   const [pengeluaran, setPengeluaran] = useState<any[]>([])
   const [persentase, setPersentase] = useState<number>(0)
@@ -35,6 +36,7 @@ export default function Home() {
     ]);
     setCountPemasukanData(dashboardData.countpemasukan)
     setCountPengeluaranData(dashboardData.countpengeluaran)
+    setSelisih(dashboardData.selisih)
     setPemasukan(dashboardData.pemasukan)
     setPengeluaran(dashboardData.pengeluaran)
     setPersentase(dashboardData.persentase)
@@ -70,6 +72,14 @@ export default function Home() {
             <CardDescription className="text-white">Total Pengeluaran</CardDescription>
             <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
               {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPengeluaran)}
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card className="w-full max-w-sm bg-blue-400">
+          <CardHeader>
+            <CardDescription className="text-white">Selisih</CardDescription>
+            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
+              {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(selisih)}
             </CardTitle>
           </CardHeader>
         </Card>
