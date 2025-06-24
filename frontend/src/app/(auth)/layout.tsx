@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import "@/lib/globals.css";
 import { Metadata } from "next";
 
@@ -14,7 +15,14 @@ export default function LoginLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body>
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );

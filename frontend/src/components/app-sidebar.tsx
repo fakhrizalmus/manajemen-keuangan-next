@@ -2,24 +2,16 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
   DollarSign,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
+  LayoutDashboard,
   Menu,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  TrendingDown,
+  TrendingUp,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -32,28 +24,11 @@ import Image from "next/image";
 
 // This is sample data.
 const data = {
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Pengeluaran",
       url: "#",
-      icon: Bot,
+      icon: TrendingDown,
       items: [
         {
           title: "Data Pengeluaran",
@@ -70,7 +45,7 @@ const data = {
     {
       title: "Pemasukan",
       url: "#",
-      icon: BookOpen,
+      icon: TrendingUp,
       items: [
         {
           title: "Data Pemasukan",
@@ -89,7 +64,7 @@ const data = {
     {
       name: "Dashboard",
       url: "/",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
     },
   ],
 }
