@@ -12,12 +12,12 @@ const register = async (req, res) => {
 
     const foundEmail = await User.findOne({
         where: {
-            email: req.body.password
+            email: req.body.email
         }
     })
 
     if (foundEmail) {
-        res.status(400).json({
+        return res.status(400).json({
             message: 'Email sudah terpakai!'
         })
     } else {
@@ -40,7 +40,7 @@ const login = async (req, res) => {
     },
   });
   if (!foundPassword) {
-    res.status(400).json({
+    return res.status(400).json({
         message: "Password atau email salah!"
     })
   }

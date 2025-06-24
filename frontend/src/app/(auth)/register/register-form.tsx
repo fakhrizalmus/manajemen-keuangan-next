@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label"
 import React, { useState } from "react"
 import { register } from "../actions"
 import { Eye, EyeOff } from "lucide-react"
+import "toastr/build/toastr.min.css";
+import toastr from "toastr";
 
 export function RegisterForm({
     className,
@@ -37,6 +39,8 @@ export function RegisterForm({
             console.log("Login berhasil:", res)
         } catch (error) {
             console.error("Login gagal:", error)
+            toastr.error('Email sudah terpakai')
+            return
         }
     }
 

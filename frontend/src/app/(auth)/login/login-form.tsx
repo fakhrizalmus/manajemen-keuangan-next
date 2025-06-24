@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label"
 import React, { useState } from "react"
 import { login } from "../actions"
 import { Eye, EyeOff } from "lucide-react"
+import "toastr/build/toastr.min.css";
+import toastr from "toastr";
 
 export function LoginForm({
     className,
@@ -36,6 +38,8 @@ export function LoginForm({
             console.log("Login berhasil:", res)
         } catch (error) {
             console.error("Login gagal:", error)
+            toastr.error('Email atau password salah !')
+            return
         }
     }
 
