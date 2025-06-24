@@ -13,7 +13,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, Check, ChevronDown, ChevronsUpDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -52,19 +52,26 @@ import {
 import { getColumns, DataPemasukan } from "./columns"
 import EditModal from "./editmodal"
 import { getPemasukan } from "./actions"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { cn } from "@/lib/utils"
 
 type Props = {
   pageSize: number | 10
   pageIndex: number | 0
   setPageSize: React.Dispatch<React.SetStateAction<number>>
   setPageIndex: React.Dispatch<React.SetStateAction<number>>
+  selectedKategoriId: number | null;
+  setSelectedKategoriId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex, setPageSize, setPageIndex }: {
+export function DataTable({ data, count, onDelete, refetch, pageSize, 
+  pageIndex, setPageSize, setPageIndex, kategoriList, selectedKategoriId, setSelectedKategoriId }: {
   data: DataPemasukan[],
   count: number,
   onDelete: (id: number) => void,
-  refetch: () => void
+  refetch: () => void,
+  kategoriList: any[]
 } & Props) {
   const [selectedIdToDelete, setSelectedIdToDelete] = React.useState<number | null>(null)
   const [selectedIdToEdit, setSelectedIdToEdit] = React.useState<number | null>(null)
@@ -117,6 +124,8 @@ export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex,
     getRowId: (row) => row.id.toString(),
   })
 
+  const [open, setOpen] = React.useState(false)
+
   return (
     <div className="w-full">
       {selectedIdToDelete !== null && (
@@ -155,15 +164,68 @@ export function DataTable({ data, count, onDelete, refetch, pageSize, pageIndex,
         />
       )}
 
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Cari nama kategori"
-          value={(table.getColumn("nama_kategori")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("nama_kategori")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-4">
+        <Label htmlFor="kategori">Kategori</Label>
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="min-w-[180px] justify-between"
+                >
+                    {selectedKategoriId !== null
+                        ? kategoriList.find((item) => item.id === selectedKategoriId)?.nama_kategori
+                        : "Semua kategori"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+              <Command>
+                <CommandInput placeholder="Cari kategori..." className="h-9" />
+                <CommandList>
+                  <CommandEmpty>No kategori found.</CommandEmpty>
+                  <CommandGroup>
+                      <CommandItem
+                        key="all"
+                        value=""
+                        onSelect={() => {
+                          setSelectedKategoriId(null)
+                          setOpen(false)
+                        }}
+                      >
+                        Semua Kategori
+                        <Check
+                          className={cn(
+                            "ml-auto",
+                            selectedKategoriId === null ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                      </CommandItem>
+                      {kategoriList.map((item) => (
+                        <CommandItem
+                          key={item.id}
+                          value={item.id.toString()}
+                          onSelect={(currentValue) => {
+                            const selectedId = parseInt(currentValue)
+                            setSelectedKategoriId(selectedId === selectedKategoriId ? null : selectedId)
+                            setOpen(false)
+                          }}
+                        >
+                          {item.nama_kategori}
+                          <Check
+                            className={cn(
+                              "ml-auto",
+                              selectedKategoriId === item.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+        </Popover>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

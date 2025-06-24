@@ -38,6 +38,7 @@ export default function Pengeluaran() {
     const [endDate, setEndDate] = React.useState<Date | undefined>(akhirBulan);
     const [pageSize, setPageSize] = React.useState<number>(10)
     const [pageIndex, setPageIndex] = React.useState<number>(0)
+    const [selectedKategoriId, setSelectedKategoriId] = useState<number | null>(null);
 
     const fetchData = async () => {
         const [kategoriRes, pengeluaranRes] = await Promise.all([
@@ -46,7 +47,8 @@ export default function Pengeluaran() {
                 start_date: moment(startDate).format("YYYY-MM-DD"),
                 end_date: moment(endDate).format("YYYY-MM-DD"),
                 row: pageSize,
-                page: pageIndex * pageSize
+                page: pageIndex * pageSize,
+                kategori_pengeluaran_id: selectedKategoriId ?? undefined,
             }),
         ]);
         setKategoriList(kategoriRes.data);
@@ -56,7 +58,7 @@ export default function Pengeluaran() {
 
     React.useEffect(() => {
         fetchData();
-    }, [pageIndex, pageSize]);
+    }, [pageIndex, pageSize, selectedKategoriId]);
 
     const [jumlah, setJumlah] = useState("");
 
@@ -259,7 +261,10 @@ export default function Pengeluaran() {
                         pageIndex={pageIndex}
                         pageSize={pageSize}
                         setPageIndex={setPageIndex}
-                        setPageSize={setPageSize} />
+                        setPageSize={setPageSize}
+                        kategoriList={kategoriList}
+                        selectedKategoriId={selectedKategoriId}
+                        setSelectedKategoriId={setSelectedKategoriId} />
                 </div>
             </div>
         </div>
