@@ -13,8 +13,10 @@ import { ChartPemasukan } from "@/components/dashboard/pemasukan";
 import { ChartPengeluaran } from "@/components/dashboard/pengeluaran";
 import { ChartPersentase } from "@/components/dashboard/persentase";
 import { dashboard } from "./actions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [countPemasukan, setCountPemasukanData] = useState<number>(0)
   const [countPengeluaran, setCountPengeluaranData] = useState<number>(0)
   const [selisih, setSelisih] = useState<number>(0)
@@ -28,6 +30,7 @@ export default function Home() {
   const [endDate, setEndDate] = React.useState<Date | undefined>(akhirBulan);
 
   const fetchData = async () => {
+    setLoading(true)
     const [dashboardData] = await Promise.all([
       dashboard({
         start_date: moment(startDate).format("YYYY-MM-DD"),
@@ -40,6 +43,7 @@ export default function Home() {
     setPemasukan(dashboardData.pemasukan)
     setPengeluaran(dashboardData.pengeluaran)
     setPersentase(dashboardData.persentase)
+    setLoading(false)
   };
 
   React.useEffect(() => {
@@ -59,35 +63,55 @@ export default function Home() {
           onClick={() => fetchData()}>Cari</Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-4 w-full">
-        <Card className="w-full max-w-sm bg-green-600">
-          <CardHeader>
-            <CardDescription className="text-white">Total Pemasukan</CardDescription>
-            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
-              {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPemasukan)}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card className="w-full max-w-sm bg-red-700">
-          <CardHeader>
-            <CardDescription className="text-white">Total Pengeluaran</CardDescription>
-            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
-              {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPengeluaran)}
-            </CardTitle>
-          </CardHeader>
-        </Card>
-        <Card className="w-full max-w-sm bg-blue-400">
-          <CardHeader>
-            <CardDescription className="text-white">Selisih</CardDescription>
-            <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
-              {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(selisih)}
-            </CardTitle>
-          </CardHeader>
-        </Card>
+        {loading ? (
+          <>
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </>
+        ) : (
+          <>
+          <Card className="w-full max-w-sm bg-green-600">
+            <CardHeader>
+              <CardDescription className="text-white">Total Pemasukan</CardDescription>
+              <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
+                {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPemasukan)}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          <Card className="w-full max-w-sm bg-red-700">
+            <CardHeader>
+              <CardDescription className="text-white">Total Pengeluaran</CardDescription>
+              <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
+                {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(countPengeluaran)}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          <Card className="w-full max-w-sm bg-blue-400">
+            <CardHeader>
+              <CardDescription className="text-white">Selisih</CardDescription>
+              <CardTitle className="text-2xl text-white font-semibold tabular-nums @[250px]/card:text-3xl">
+                {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(selisih)}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+          </>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-        <ChartPemasukan data={pemasukan} start_date={startDate} end_date={endDate} />
-        <ChartPengeluaran data={pengeluaran} start_date={startDate} end_date={endDate} />
-        <ChartPersentase data={persentase} start_date={startDate} end_date={endDate} />
+        {loading ? (
+          <>
+            <Skeleton className="h-[300px] w-full" />
+            <Skeleton className="h-[300px] w-full" />
+            <Skeleton className="h-[300px] w-full md:col-span-2" />
+          </>
+        ) : (
+          <>
+            <ChartPemasukan data={pemasukan} start_date={startDate} end_date={endDate} />
+            <ChartPengeluaran data={pengeluaran} start_date={startDate} end_date={endDate} />
+            <ChartPersentase data={persentase} start_date={startDate} end_date={endDate} />
+          </>
+        )}
       </div>
     </div>
   );

@@ -28,6 +28,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { infoLogin } from "@/app/(auth)/actions"
+import Image from "next/image";
 
 // This is sample data.
 const data = {
@@ -114,7 +115,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <div className="flex items-center gap-3">
+        <Image 
+          src="/logo.svg"
+          alt="Logo"
+          width={40}
+          height={40}
+          priority /> 
+          <span className="text-lg font-semibold text-gray-800 dark:text-white">
+            Manajemen Keuangan
+          </span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavProjects projects={data.projects} />
