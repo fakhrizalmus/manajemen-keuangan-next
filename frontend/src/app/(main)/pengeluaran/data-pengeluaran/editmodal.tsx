@@ -87,10 +87,13 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                 <DialogHeader>
                     <DialogTitle>Edit Pengeluaran</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4">
+                <form className="grid gap-4" onSubmit={(e) => {
+                        e.preventDefault() 
+                        handleSubmit()
+                    }}>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-3">
-                            <Label>Tanggal</Label>
+                            <Label>Tanggal <span className="text-red-500">*</span></Label>
                             <div className="w-full">
                             <DatePicker date={selectedDate} 
                             setDate={(date) => {
@@ -100,7 +103,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                             </div>
                         </div>
                         <div className="grid gap-3">
-                            <Label>Kategori</Label>
+                            <Label>Kategori <span className="text-red-500">*</span></Label>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -146,16 +149,6 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                             </Popover>
                         </div>
                     </div>
-                    <div className="flex gap-4">
-                        <div className="grid gap-3 flex-1">
-                            <Label htmlFor="jumlah">Jumlah</Label>
-                            <Input type="number" id="jumlah" name="jumlah" value={form.jumlah} onChange={handleChange} />
-                        </div>
-                        <div className="grid gap-3 flex-1">
-                            <Label htmlFor="jumlah">Rupiah</Label>
-                            <Input id="jumlah" name="jumlah" value={jumlah} readOnly />
-                        </div>
-                    </div>
                     <div>
                         <Label>Keterangan</Label>
                         <Input
@@ -163,17 +156,27 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                         onChange={(e) => setForm({ ...form, keterangan: e.target.value })}
                         />
                     </div>
+                    <div className="flex gap-4">
+                        <div className="grid gap-3 flex-1">
+                            <Label htmlFor="jumlah">Jumlah <span className="text-red-500">*</span></Label>
+                            <Input type="number" id="jumlah" name="jumlah" value={form.jumlah} onChange={handleChange} />
+                        </div>
+                        <div className="grid gap-3 flex-1">
+                            <Label htmlFor="jumlah">Rupiah</Label>
+                            <Input id="jumlah" name="jumlah" value={jumlah} readOnly />
+                        </div>
+                    </div>
                     <div className="mt-4">
                         <DialogFooter>
                             <DialogClose asChild>
                             <Button className="bg-red-500 text-white">Cancel</Button>
                             </DialogClose>
-                            <Button className="bg-green-400 text-white" onClick={handleSubmit} disabled={loading}>
+                            <Button className="bg-green-400 text-white" disabled={loading}>
                                 {loading ? "Menyimpan..." : "Simpan"}
                             </Button>
                         </DialogFooter>
                     </div>
-                </div>
+                </form>
             </DialogContent>
         </Dialog>
     )

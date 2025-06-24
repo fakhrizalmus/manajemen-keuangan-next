@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { IconPlus } from "@tabler/icons-react";
 import { DataTable } from "./data-table";
+import "toastr/build/toastr.min.css";
+import toastr from "toastr";
 
 export default function kategoriPemasukan() {
     const [pemasukanData, setKategoriPemasukanData] = useState<any[]>([]);
@@ -32,12 +34,11 @@ export default function kategoriPemasukan() {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         try {
-            const newFormData = {
-                ...formData,
-                user_id: 1,
-            };
-            console.log(newFormData);
-            const res = await postKategoriPemasukan(newFormData)
+            if (!formData.nama_kategori) {
+                toastr.error('Isi semua field dengan benar')
+                return;
+            }
+            const res = await postKategoriPemasukan(formData)
             console.log('Berhasil simpan data ', res);
             const pemasukan = await getKategoriPemasukan({})
             setKategoriPemasukanData(pemasukan.data)
@@ -81,7 +82,7 @@ export default function kategoriPemasukan() {
                                 </DialogHeader>
                                 <div className="grid gap-4">
                                     <div className="grid gap-3">
-                                        <Label htmlFor="nama_kategori">Nama Kategori</Label>
+                                        <Label htmlFor="nama_kategori">Nama Kategori <span className="text-red-500">*</span></Label>
                                         <Input id="nama_kategori" name="nama_kategori" onChange={e => setFormData({ ...formData, nama_kategori: e.target.value })} placeholder="Nama Kategori" />
                                     </div>
                                 </div>

@@ -2,7 +2,6 @@ import api from '@/lib/axios'
 
 export async function postKategoriPemasukan(data: {
     nama_kategori: string
-    user_id: number
 }) {
     try {
         console.log(data);

@@ -168,7 +168,7 @@ export default function Pengeluaran() {
                                     <div className="grid grid-cols-2 gap-4">
                                         {/* Tanggal */}
                                         <div className="grid gap-3">
-                                            <Label htmlFor="tanggal">Tanggal</Label>
+                                            <Label htmlFor="tanggal">Tanggal <span className="text-red-500">*</span></Label>
                                             <div className="w-full">
                                                 <DatePicker date={selectedDate} setDate={setSelectedDate} />
                                             </div>
@@ -176,7 +176,7 @@ export default function Pengeluaran() {
 
                                         {/* Kategori */}
                                         <div className="grid gap-3">
-                                            <Label htmlFor="name-1">Kategori</Label>
+                                            <Label htmlFor="name-1">Kategori <span className="text-red-500">*</span></Label>
                                             <Popover open={open} onOpenChange={setOpen}>
                                                 <PopoverTrigger asChild>
                                                     <Button
@@ -195,7 +195,7 @@ export default function Pengeluaran() {
                                                     <Command>
                                                         <CommandInput placeholder="Cari kategori..." className="h-9" />
                                                         <CommandList>
-                                                            <CommandEmpty>No framework found.</CommandEmpty>
+                                                            <CommandEmpty>No kategori found.</CommandEmpty>
                                                             <CommandGroup>
                                                                 {kategoriList.map((item) => (
                                                                     <CommandItem
@@ -231,7 +231,7 @@ export default function Pengeluaran() {
                                     {/* Jumlah */}
                                     <div className="flex gap-4">
                                         <div className="grid gap-3 flex-1">
-                                            <Label htmlFor="jumlah">Jumlah</Label>
+                                            <Label htmlFor="jumlah">Jumlah <span className="text-red-500">*</span></Label>
                                             <Input type="number" id="jumlah" name="jumlah" onChange={handleChange} />
                                         </div>
                                         <div className="grid gap-3 flex-1">
