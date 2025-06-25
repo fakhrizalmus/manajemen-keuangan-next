@@ -52,7 +52,7 @@ const updateKategoriPengeluaran = async (req, res) => {
             message: 'Kategori pengeluaran tidak ditemukan'
         })
     }
-    if (nama_kategori) {
+    if (nama_kategori != cariKategoriPengeluaran.nama_kategori) {
         cariKategoriPengeluaran.nama_kategori = nama_kategori
     }
     const updatePengeluaran = await cariKategoriPengeluaran.save()

@@ -72,16 +72,16 @@ const updatePengeluaran = async (req, res) => {
             message: 'Pengeluaran tidak ditemukan'
         })
     }
-    if (kategori_pengeluaran_id) {
+    if (kategori_pengeluaran_id != cariPengeluaran.kategori_pengeluaran_id) {
         cariPengeluaran.kategori_pengeluaran_id = kategori_pengeluaran_id
     }
-    if (jumlah) {
+    if (jumlah != cariPengeluaran.jumlah) {
         cariPengeluaran.jumlah = jumlah
     }
-    if (tanggal) {
+    if (tanggal != cariPengeluaran.tanggal) {
         cariPengeluaran.tanggal = tanggal
     }
-    if (keterangan) {
+    if (keterangan != cariPengeluaran.keterangan) {
         cariPengeluaran.keterangan = keterangan
     }
     const updatePengeluaran = await cariPengeluaran.save()

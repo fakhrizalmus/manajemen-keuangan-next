@@ -71,16 +71,16 @@ const updatePemasukan = async (req, res) => {
             message: 'Pemasukan tidak ditemukan'
         })
     }
-    if (kategori_pemasukan_id) {
+    if (kategori_pemasukan_id != cariPemasukan.kategori_pemasukan_id) {
         cariPemasukan.kategori_pemasukan_id = kategori_pemasukan_id
     }
-    if (jumlah) {
+    if (jumlah != cariPemasukan.jumlah) {
         cariPemasukan.jumlah = jumlah
     }
-    if (tanggal) {
+    if (tanggal != cariPemasukan.tanggal) {
         cariPemasukan.tanggal = tanggal
     }
-    if (keterangan) {
+    if (keterangan != cariPemasukan.keterangan) {
         cariPemasukan.keterangan = keterangan
     }
     const updatePemasukan = await cariPemasukan.save()
