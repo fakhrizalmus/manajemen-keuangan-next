@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import * as React from "react"
+import "toastr/build/toastr.min.css";
+import toastr from "toastr";
 
 type EditModalProps = {
     id: number | null
@@ -32,14 +34,20 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
         }
     }, [id])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
         try {
+            if (form.nama_kategori == "") {
+                toastr.error('Nama kategori tidak boleh kosong');
+                return
+            }
             setLoading(true)
             await putKategoriPengeluaran(form, id!)
             onSuccess()
             onClose()
         } catch (err) {
             console.error(err)
+            throw err
         } finally {
             setLoading(false)
         }
@@ -51,9 +59,9 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                 <DialogHeader>
                     <DialogTitle>Edit Kategori Pengeluaran</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4">
-                    <div>
-                        <Label>Nama Kategori</Label>
+                <form className="grid gap-4" onSubmit={handleSubmit}>
+                    <div className="grid gap-3">
+                        <Label>Nama Kategori <span className="text-red-500">*</span></Label>
                         <Input
                             value={form.nama_kategori}
                             onChange={(e) => setForm({ ...form, nama_kategori: e.target.value })}
@@ -64,12 +72,12 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                             <DialogClose asChild>
                                 <Button className="bg-red-500 text-white">Cancel</Button>
                             </DialogClose>
-                            <Button className="bg-green-400 text-white" onClick={handleSubmit} disabled={loading}>
-                                {loading ? "Menyimpan..." : "Simpan"}
+                            <Button type="submit" className="bg-green-400 text-white" disabled={loading}>
+                                {loading ? "Menyimpan..." : "Simpan Perubahan"}
                             </Button>
                         </DialogFooter>
                     </div>
-                </div>
+                </form>
             </DialogContent>
         </Dialog>
     )

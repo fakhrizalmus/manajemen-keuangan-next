@@ -89,9 +89,9 @@ export default function kategoriPemasukan() {
                                 <div className="mt-4">
                                     <DialogFooter>
                                         <DialogClose asChild>
-                                            <Button className="bg-red-500 text-white">Cancel</Button>
+                                            <Button className="bg-red-500 text-white">Batal</Button>
                                         </DialogClose>
-                                        <Button type="submit" className="bg-green-400 text-white">Save changes</Button>
+                                        <Button type="submit" className="bg-green-400 text-white">Simpan</Button>
                                     </DialogFooter>
                                 </div>
                             </form>

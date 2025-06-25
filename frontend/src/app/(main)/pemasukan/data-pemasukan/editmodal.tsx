@@ -149,7 +149,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                             </Popover>
                         </div>
                     </div>
-                    <div>
+                    <div className="grid gap-3">
                         <Label>Keterangan</Label>
                         <Input
                         value={form.keterangan}
@@ -172,7 +172,7 @@ export default function EditModal({ id, onClose, onSuccess }: EditModalProps) {
                             <Button className="bg-red-500 text-white">Cancel</Button>
                             </DialogClose>
                             <Button type="submit" className="bg-green-400 text-white" disabled={loading}>
-                                {loading ? "Menyimpan..." : "Simpan"}
+                                {loading ? "Menyimpan..." : "Simpan Perubahan"}
                             </Button>
                         </DialogFooter>
                     </div>
