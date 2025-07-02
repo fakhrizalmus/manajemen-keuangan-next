@@ -4,6 +4,8 @@ const model = require('../models')
 
 const getAllPemasukan = async (req, res) => {
     let {page, row, kategori_pemasukan_id, id, start_date, end_date} = req.query
+    const start = new Date(start_date)
+    const end = new Date(end_date)
 
     const where = {}
     if (kategori_pemasukan_id) {
@@ -14,7 +16,7 @@ const getAllPemasukan = async (req, res) => {
     }
     if (start_date && end_date) {
         where.tanggal = {
-            [Op.between]: [start_date, end_date]
+            [Op.between]: [start, end]
         }
     }
     where.user_id = req.user.id
