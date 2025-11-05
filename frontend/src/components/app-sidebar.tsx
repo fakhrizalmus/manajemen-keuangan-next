@@ -91,15 +91,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="flex items-center gap-3">
-        <Image 
-          src="/logo.svg"
-          alt="Logo"
-          width={40}
-          height={40}
-          priority /> 
-          <span className="text-lg font-semibold text-gray-800 dark:text-white">
-            Manajemen Keuangan
-          </span>
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={40}
+            height={40}
+            priority />
         </div>
       </SidebarHeader>
       <SidebarContent>
