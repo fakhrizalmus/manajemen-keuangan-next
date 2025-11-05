@@ -2,31 +2,24 @@
 
 import * as React from "react"
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table"
-import { ArrowUpDown, Check, ChevronDown, ChevronsUpDown, MoreHorizontal } from "lucide-react"
+import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -46,8 +39,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import { getColumns, DataPemasukan } from "./columns"
 import EditModal from "./editmodal"
@@ -65,14 +57,14 @@ type Props = {
   setSelectedKategoriId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export function DataTable({ data, count, onDelete, refetch, pageSize, 
+export function DataTable({ data, count, onDelete, refetch, pageSize,
   pageIndex, setPageSize, setPageIndex, kategoriList, selectedKategoriId, setSelectedKategoriId }: {
-  data: DataPemasukan[],
-  count: number,
-  onDelete: (id: number) => void,
-  refetch: () => void,
-  kategoriList: any[]
-} & Props) {
+    data: DataPemasukan[],
+    count: number,
+    onDelete: (id: number) => void,
+    refetch: () => void,
+    kategoriList: any[]
+  } & Props) {
   const [selectedIdToDelete, setSelectedIdToDelete] = React.useState<number | null>(null)
   const [selectedIdToEdit, setSelectedIdToEdit] = React.useState<number | null>(null)
   const columns = React.useMemo(() => getColumns(setSelectedIdToDelete, setSelectedIdToEdit), [])
@@ -101,7 +93,6 @@ export function DataTable({ data, count, onDelete, refetch, pageSize,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
@@ -159,7 +150,6 @@ export function DataTable({ data, count, onDelete, refetch, pageSize,
           onSuccess={() => {
             setSelectedIdToEdit(null)
             refetch()
-            // lakukan refetch data pengeluaran
           }}
         />
       )}
@@ -167,64 +157,64 @@ export function DataTable({ data, count, onDelete, refetch, pageSize,
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-4">
         <Label htmlFor="kategori">Kategori</Label>
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="min-w-[180px] justify-between"
-                >
-                    {selectedKategoriId !== null
-                        ? kategoriList.find((item) => item.id === selectedKategoriId)?.nama_kategori
-                        : "Semua kategori"}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Cari kategori..." className="h-9" />
-                <CommandList>
-                  <CommandEmpty>No kategori found.</CommandEmpty>
-                  <CommandGroup>
-                      <CommandItem
-                        key="all"
-                        value=""
-                        onSelect={() => {
-                          setSelectedKategoriId(null)
-                          setOpen(false)
-                        }}
-                      >
-                        Semua Kategori
-                        <Check
-                          className={cn(
-                            "ml-auto",
-                            selectedKategoriId === null ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                      </CommandItem>
-                      {kategoriList.map((item) => (
-                        <CommandItem
-                          key={item.id}
-                          value={item.id.toString()}
-                          onSelect={(currentValue) => {
-                            const selectedId = parseInt(currentValue)
-                            setSelectedKategoriId(selectedId === selectedKategoriId ? null : selectedId)
-                            setOpen(false)
-                          }}
-                        >
-                          {item.nama_kategori}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              selectedKategoriId === item.id ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="min-w-[180px] justify-between"
+            >
+              {selectedKategoriId !== null
+                ? kategoriList.find((item) => item.id === selectedKategoriId)?.nama_kategori
+                : "Semua kategori"}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandInput placeholder="Cari kategori..." className="h-9" />
+              <CommandList>
+                <CommandEmpty>No kategori found.</CommandEmpty>
+                <CommandGroup>
+                  <CommandItem
+                    key="all"
+                    value=""
+                    onSelect={() => {
+                      setSelectedKategoriId(null)
+                      setOpen(false)
+                    }}
+                  >
+                    Semua Kategori
+                    <Check
+                      className={cn(
+                        "ml-auto",
+                        selectedKategoriId === null ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                  {kategoriList.map((item) => (
+                    <CommandItem
+                      key={item.id}
+                      value={item.id.toString()}
+                      onSelect={(currentValue) => {
+                        const selectedId = parseInt(currentValue)
+                        setSelectedKategoriId(selectedId === selectedKategoriId ? null : selectedId)
+                        setOpen(false)
+                      }}
+                    >
+                      {item.nama_kategori}
+                      <Check
+                        className={cn(
+                          "ml-auto",
+                          selectedKategoriId === item.id ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
         </Popover>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -304,10 +294,6 @@ export function DataTable({ data, count, onDelete, refetch, pageSize,
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="flex w-full items-center gap-8 lg:w-fit">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <Label htmlFor="rows-per-page" className="text-sm font-medium">
